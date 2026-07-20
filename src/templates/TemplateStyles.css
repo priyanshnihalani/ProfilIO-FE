@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+/* ============================================================
+   TEMPLATE 1 — MINIMAL CLEAN
+   Single column serif. Full-width, ATS-optimised.
+============================================================ */
+.t1 {
+    font-family: 'Lora','Georgia','Times New Roman',serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+    color: #1a1a1a;
+    background: white;
+    width: 794px;
+    box-sizing: border-box;
+}
+.t1-name { font-size: 22pt; font-weight: 700; letter-spacing: -.01em; margin-bottom: 5px; color: #111; }
+.t1-contact { font-size: 8.5pt; color: #555; margin-bottom: 18px; display: flex; gap: 14px; flex-wrap: wrap; }
+.t1-contact span { margin: 0; padding: 0; }
+.t1-divider { border: none; border-top: 1.5px solid #1a1a1a; margin: 0 0 16px; }
+.t1-section-title { font-size: 8.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; color: #111; margin-bottom: 8px; border-bottom: 1px solid #ccc; padding-bottom: 3px; }
+.t1-section { margin-bottom: 18px; }
+.t1-summary { font-size: 9.5pt; color: #333; line-height: 1.65; margin-bottom: 18px; }
+.t1-job { margin-bottom: 12px; }
+.t1-job-header { display: flex; justify-content: space-between; align-items: baseline; }
+.t1-job-title { font-weight: 700; font-size: 10pt; }
+.t1-job-date { font-size: 8.5pt; color: #666; white-space: nowrap; }
+.t1-job-company { font-size: 9pt; color: #444; font-style: italic; margin-bottom: 3px; }
+.t1-job-bullets { padding-left: 14px; margin: 0; }
+.t1-job-bullets li { font-size: 9pt; color: #333; margin-bottom: 3px; line-height: 1.4; list-style-type: disc; }
+.t1-skills-list { display: block; line-height: 2; margin-top: 4px; }
+.t1-skill { display: inline-block; font-family: 'Inter', sans-serif; font-size: 8.5pt; color: #333; border: 1px solid #bbb; padding: 2px 8px; border-radius: 2px; margin: 0 4px 4px 0; vertical-align: middle; }
+.t1-edu-row { display: flex; justify-content: space-between; align-items: baseline; }
+.t1-edu-degree { font-weight: 700; font-size: 9.5pt; }
+.t1-edu-school { font-size: 9pt; color: #444; font-style: italic; }
+
+/* ============================================================
+   TEMPLATE 2 — MODERN PROFESSIONAL (Startup ATS)
+   Two-column: navy sidebar (220px) + white main.
+   IMPORTANT: SIDEBAR_W = 220px. This must match the inline style
+   in ModernProfessional.tsx AND the @media print rules below.
+============================================================ */
+.t2 {
+    font-family: 'Inter','Helvetica Neue',Arial,sans-serif;
+    font-size: 9.5pt;
+    color: #1c1c1c;
+    width: 794px;
+    box-sizing: border-box;
+}
+/* Screen two-column variant uses flex + background gradient */
+.t2-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: transparent; /* gradient applied on root via inline style */
+    color: white;
+    box-sizing: border-box;
+}
+.t2-sidebar-name { font-size: 15pt; font-weight: 700; line-height: 1.2; margin-bottom: 3px; }
+.t2-sidebar-role { font-size: 7.5pt; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; color: #a8c4d6; margin-bottom: 20px; }
+.t2-sidebar-section { margin-bottom: 18px; }
+.t2-sidebar-heading { font-size: 7pt; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #a8c4d6; margin-bottom: 7px; border-bottom: 1px solid rgba(255,255,255,.12); padding-bottom: 4px; }
+.t2-contact-item { font-size: 8pt; color: #d6e8f0; margin-bottom: 4px; line-height: 1.4; word-break: break-word; }
+.t2-skill-bar { margin-bottom: 6px; }
+.t2-skill-name { font-size: 8pt; color: #e0eef5; margin-bottom: 2px; }
+.t2-skill-track { height: 3px; background: rgba(255,255,255,.18); border-radius: 2px; overflow: hidden; }
+.t2-skill-fill { height: 100%; background: #62b3d0; border-radius: 2px; }
+.t2-main { flex: 1; box-sizing: border-box; }
+.t2-section { margin-bottom: 18px; }
+.t2-section-title { font-size: 11pt; font-weight: 700; color: #1d3557; border-bottom: 2px solid #1d3557; padding-bottom: 3px; margin-bottom: 10px; }
+.t2-summary { font-size: 9pt; color: #444; line-height: 1.6; }
+.t2-job { margin-bottom: 12px; }
+.t2-job-title { font-weight: 700; font-size: 9.5pt; color: #1c1c1c; }
+.t2-job-meta { font-size: 8pt; color: #666; margin-bottom: 4px; }
+.t2-job-meta strong { color: #1d3557; }
+.t2-bullets { padding-left: 13px; margin: 0; }
+.t2-bullets li { font-size: 8.5pt; color: #444; margin-bottom: 3px; line-height: 1.4; list-style-type: disc; }
+.t2-edu-item { margin-bottom: 7px; }
+.t2-edu-degree { font-weight: 700; font-size: 9pt; }
+.t2-edu-school { font-size: 8.5pt; color: #555; }
+.t2-edu-date { font-size: 8pt; color: #888; }
+
+/* ============================================================
+   TEMPLATE 3 — ELEGANT COMPACT (Executive Pro)
+   Centred header + two-column CSS grid body.
+============================================================ */
+.t3 {
+    font-family: 'Lora','Palatino Linotype','Book Antiqua',Palatino,serif;
+    font-size: 9.5pt;
+    color: #1a1a1a;
+    background: white;
+    width: 794px;
+    box-sizing: border-box;
+}
+.t3-head { text-align: center; border-bottom: 1px solid #c8b89a; padding-bottom: 14px; margin-bottom: 14px; }
+.t3-name { font-family: 'Playfair Display','Lora',serif; font-size: 24pt; font-weight: 700; letter-spacing: .04em; color: #2a2018; margin-bottom: 4px; }
+.t3-title { font-size: 9pt; letter-spacing: .15em; text-transform: uppercase; color: #8b7355; margin-bottom: 8px; }
+.t3-contact { font-size: 8pt; color: #666; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+.t3-sep { color: #c8b89a; margin: 0 2px; }
+.t3-two-col { display: grid; grid-template-columns: 2.2fr 1fr; gap: 20px; }
+.t3-section { margin-bottom: 15px; }
+.t3-section-title {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: #8b7355;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.t3-section-title::after { content: ''; flex: 1; height: 1px; background: #d4c5a9; }
+.t3-summary { font-size: 8.5pt; color: #444; line-height: 1.7; font-style: italic; }
+.t3-job { margin-bottom: 11px; }
+.t3-job-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px; }
+.t3-job-title { font-weight: 700; font-size: 9pt; }
+.t3-job-date { font-size: 7.5pt; color: #888; white-space: nowrap; }
+.t3-job-company { font-size: 8.5pt; color: #8b7355; font-style: italic; margin-bottom: 3px; }
+.t3-bullets { padding-left: 12px; margin: 0; }
+.t3-bullets li { font-size: 8pt; color: #444; margin-bottom: 2px; line-height: 1.45; list-style-type: disc; }
+.t3-right-section { margin-bottom: 15px; }
+.t3-skill { font-size: 8pt; color: #333; padding: 2px 0; border-bottom: 1px dotted #d4c5a9; display: block; }
+.t3-edu-item { margin-bottom: 9px; }
+.t3-edu-degree { font-weight: 700; font-size: 8.5pt; }
+.t3-edu-school { font-size: 8pt; color: #8b7355; font-style: italic; }
+.t3-edu-date { font-size: 7.5pt; color: #888; }
+.t3-lang { font-size: 8pt; color: #333; margin-bottom: 3px; display: flex; justify-content: space-between; }
+.t3-lang-level { color: #8b7355; font-style: italic; }
+
+/* ============================================================
+   TEMPLATE 4 — THE MONOLITH (Bold Leader)
+   Centred, bold, single column.
+============================================================ */
+.t4 {
+    font-family: 'Outfit','Helvetica Neue',Arial,sans-serif;
+    font-size: 9.5pt;
+    color: #2d3432;
+    background: white;
+    width: 794px;
+    box-sizing: border-box;
+}
+.t4-head { text-align: center; border-bottom: 2px solid #2d3432; padding-bottom: 18px; margin-bottom: 20px; }
+.t4-name { font-size: 26pt; font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; color: #2d3432; margin-bottom: 3px; }
+.t4-title { font-size: 9.5pt; letter-spacing: 0.2em; text-transform: uppercase; color: #59614e; font-weight: 600; margin-bottom: 10px; }
+.t4-contact { font-size: 8pt; color: #666; display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; text-transform: uppercase; letter-spacing: 0.05em; }
+.t4-section { margin-bottom: 22px; }
+.t4-section-title { font-size: 10.5pt; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #2d3432; text-align: center; margin-bottom: 14px; }
+.t4-summary { font-size: 9pt; color: #444; line-height: 1.6; text-align: center; max-width: 85%; margin: 0 auto 22px auto; }
+.t4-job { margin-bottom: 16px; text-align: center; }
+.t4-job-title { font-weight: 700; font-size: 10.5pt; color: #2d3432; }
+.t4-job-meta { font-size: 9pt; font-style: italic; color: #666; margin-bottom: 6px; }
+.t4-job-divider { width: 36px; height: 1px; background: rgba(45,52,50,0.2); margin: 0 auto 7px; }
+.t4-bullets { padding-left: 0; margin: 0; list-style: none; text-align: center; }
+.t4-bullets li { font-size: 9pt; color: #444; margin-bottom: 3px; line-height: 1.45; }
+.t4-skills-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; }
+.t4-skill { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.08em; color: #444; border: 1px solid rgba(45,52,50,0.2); padding: 3px 9px; border-radius: 4px; }
+.t4-edu-item { margin-bottom: 10px; text-align: center; }
+.t4-edu-degree { font-weight: 700; font-size: 10pt; }
+.t4-edu-meta { font-size: 9pt; color: #666; font-style: italic; }
+
+/* ============================================================
+   TEMPLATE 5 — THE CURATOR (Creative Tech)
+   Two-column: olive sidebar (278px ≈ 35%) + white main.
+   IMPORTANT: sidebar width 278px must match SIDEBAR_W_PCT in
+   TheCurator.tsx and the @media print rules below.
+============================================================ */
+.t5 {
+    font-family: 'Outfit','DM Sans',sans-serif;
+    font-size: 9pt;
+    color: #2d3432;
+    width: 794px;
+    box-sizing: border-box;
+}
+.t5-sidebar {
+    width: 278px;  /* = 35% of 794 */
+    flex-shrink: 0;
+    background: transparent;
+    color: white;
+    box-sizing: border-box;
+}
+.t5-name { font-size: 22pt; font-weight: 900; line-height: 1.1; margin-bottom: 5px; letter-spacing: -0.02em; }
+.t5-title { font-size: 10.5pt; color: rgba(255,255,255,0.8); font-weight: 500; margin-bottom: 24px; }
+.t5-sidebar-section { border-top: 1px solid rgba(255,255,255,0.2); padding-top: 16px; margin-bottom: 20px; }
+.t5-sidebar-heading { font-size: 8.5pt; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.t5-contact-item { font-size: 9pt; color: rgba(255,255,255,0.9); margin-bottom: 6px; word-break: break-word; }
+.t5-skill-bar { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.t5-skill-track { flex: 1; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+.t5-skill-fill { height: 100%; background: rgba(255,255,255,0.8); border-radius: 2px; }
+.t5-skill-name { font-size: 8.5pt; color: rgba(255,255,255,0.75); min-width: 55px; text-align: right; }
+.t5-main { flex: 1; box-sizing: border-box; }
+.t5-section { margin-bottom: 20px; }
+.t5-section-title { font-size: 9.5pt; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: #59614e; margin-bottom: 10px; }
+.t5-summary { font-size: 9pt; color: #555; line-height: 1.6; margin-bottom: 20px; }
+.t5-job { margin-bottom: 14px; }
+.t5-job-title { font-weight: 700; font-size: 10.5pt; color: #2d3432; }
+.t5-job-meta { font-size: 8.5pt; color: #888; font-style: italic; margin-bottom: 5px; }
+.t5-job-divider { width: 100%; height: 1px; background: #ecefec; margin: 6px 0; }
+.t5-bullets { padding-left: 13px; margin: 0; }
+.t5-bullets li { font-size: 8.5pt; color: #444; margin-bottom: 3px; line-height: 1.45; list-style-type: disc; }
+.t5-edu-item { margin-bottom: 10px; }
+.t5-edu-degree { font-weight: 700; font-size: 10pt; }
+.t5-edu-meta { font-size: 8.5pt; color: #888; font-style: italic; }
+
+/* ============================================================
+   TEMPLATE 6 — THE HORIZON (Modern Vision)
+   Full-width dark header + white single-column body.
+============================================================ */
+.t6 {
+    font-family: 'Outfit','DM Sans',sans-serif;
+    font-size: 9pt;
+    color: #2d3432;
+    background: white;
+    width: 794px;
+    box-sizing: border-box;
+}
+.t6-header { background: #2d3432; color: white; padding: 36px 50px 28px; }
+.t6-name { font-size: 24pt; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 3px; }
+.t6-title { font-size: 9.5pt; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #88947b; margin-bottom: 12px; }
+.t6-contact { display: flex; gap: 20px; font-size: 8.5pt; color: rgba(255,255,255,0.6); flex-wrap: wrap; }
+.t6-body { }
+.t6-summary { font-size: 9.5pt; line-height: 1.6; color: #444; margin-bottom: 20px; }
+.t6-section { margin-bottom: 20px; }
+.t6-section-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.t6-section-title { font-size: 9.5pt; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: #59614e; white-space: nowrap; }
+.t6-section-line { flex: 1; height: 1px; background: rgba(89,97,78,0.2); }
+.t6-job { border-left: 2px solid rgba(89,97,78,0.3); padding-left: 14px; margin-bottom: 16px; }
+.t6-job-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 3px; }
+.t6-job-title { font-weight: 700; font-size: 10.5pt; color: #2d3432; }
+.t6-job-date { font-size: 8.5pt; color: #888; white-space: nowrap; }
+.t6-job-company { font-size: 9pt; font-style: italic; color: #666; margin-bottom: 5px; }
+.t6-bullets { padding-left: 13px; margin: 0; }
+.t6-bullets li { font-size: 9pt; color: #444; margin-bottom: 3px; line-height: 1.45; list-style-type: square; }
+.t6-edu-item { border-left: 2px solid rgba(89,97,78,0.3); padding-left: 14px; margin-bottom: 10px; }
+.t6-edu-degree { font-weight: 700; font-size: 10pt; margin-bottom: 1px; }
+.t6-edu-school { font-size: 9pt; font-style: italic; color: #666; }
+.t6-skills { display: flex; flex-wrap: wrap; gap: 7px; }
+.t6-skill { background: rgba(89,97,78,0.08); color: #59614e; font-weight: 600; padding: 3px 9px; border-radius: 4px; font-size: 8.5pt; }
+
+/* ============================================================
+   PAGINATION — page-break rules for live preview
+============================================================ */
+
+/* Every job/edu/skills/cert block must not split across pages */
+[data-block-key],
+[data-section-title="true"],
+.t1-job, .t2-job, .t3-job, .t4-job, .t5-job, .t6-job,
+.t1-skills-list, .t4-skills-list, .t6-skills,
+.t2-edu-item, .t3-edu-item, .t4-edu-item, .t5-edu-item, .t6-edu-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+/* ResumePage page separators */
+.resume-page {
+    page-break-after: always;
+    break-after: page;
+}
+.resume-page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+}
+
+/* ============================================================
+   PRINT / PDF — Puppeteer renders with @media print active.
+   These rules must produce output that matches screen preview.
+
+   Key fixes:
+   1. Two-column templates switch to display:flex (not table)
+      because Puppeteer handles flex reliably.
+   2. Sidebar widths use the SAME pixel values as the inline
+      styles in the TSX files (220px for T2, 278px for T5).
+   3. Background colours are explicit so -webkit-print-color-adjust
+      doesn't strip them.
+   4. .resume-page clips content to exact A4 bounds.
+============================================================ */
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html, body {
+        background: white !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* ── A4 page boundary clip ─────────────────────────── */
+    .resume-page {
+        width: 794px !important;
+        height: 1122px !important;
+        overflow: hidden !important;
+        page-break-after: always;
+        break-after: page;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .resume-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+    /* Hide preview chrome */
+    .resume-document {
+        background: transparent !important;
+        padding: 0 !important;
+        gap: 0 !important;
+        border: none !important;
+        border-radius: 0 !important;
+    }
+    .resume-print-wrapper {
+        transform: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        border: none !important;
+        background: transparent !important;
+    }
+
+    /* ── Template 1 ────────────────────────────────────── */
+    .t1 {
+        width: 794px !important;
+    }
+
+    /* ── Template 2: flex two-column (220px sidebar) ────── */
+    .t2 {
+        display: flex !important;
+        width: 794px !important;
+        background: linear-gradient(to right, #1d3557 220px, #ffffff 220px) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .t2.t2-single {
+        display: block !important;
+        background: #ffffff !important;
+    }
+    .t2-sidebar {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        width: 220px !important;
+        min-width: 220px !important;
+        max-width: 220px !important;
+        background: transparent !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        overflow: hidden !important;
+    }
+    .t2-main {
+        flex: 1 !important;
+        overflow: hidden !important;
+        background: white !important;
+    }
+
+    /* ── Template 3 ────────────────────────────────────── */
+    .t3 {
+        width: 794px !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .t3.t3-single {
+        display: block !important;
+        background: #ffffff !important;
+    }
+    .t3-two-col {
+        display: grid !important;
+        grid-template-columns: 2.2fr 1fr !important;
+    }
+
+    /* ── Template 4 ────────────────────────────────────── */
+    .t4 {
+        width: 794px !important;
+    }
+
+    /* ── Template 5: flex two-column (278px sidebar) ────── */
+    .t5 {
+        display: flex !important;
+        width: 794px !important;
+        background: linear-gradient(to right, #59614e 278px, #ffffff 278px) !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .t5.t5-single {
+        display: block !important;
+        background: #ffffff !important;
+    }
+    .t5-sidebar {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        width: 278px !important;
+        min-width: 278px !important;
+        max-width: 278px !important;
+        background: transparent !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        overflow: hidden !important;
+    }
+    .t5-main {
+        flex: 1 !important;
+        overflow: hidden !important;
+        background: white !important;
+    }
+
+    /* ── Template 6 ────────────────────────────────────── */
+    .t6 {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 794px !important;
+    }
+    .t6-header {
+        background: #2d3432 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* Hide empty sections on multi-page views to prevent empty margin-bottom gaps */
+.t1-section:empty,
+.t2-section:empty,
+.t2-sidebar-section:empty,
+.t3-section:empty,
+.t3-right-section:empty,
+.t3-sidebar-section:empty,
+.t4-section:empty,
+.t5-section:empty,
+.t5-sidebar-section:empty,
+.t6-section:empty {
+    display: none !important;
+}
+
+

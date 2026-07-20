@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap');
+
+@import "tailwindcss";
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #FAFAFC;
+  color: #0F172A;
+}
+
+html {
+  width: 100%;
+  overflow-x: hidden;
+  text-size-adjust: 100%;
+}
+
+body,
+#root {
+  min-width: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  min-width: 0;
+}
+
+img,
+svg,
+canvas,
+video {
+  max-width: 100%;
+}
+
+.liquid-page-shell {
+  width: min(100% - clamp(1rem, 4vw, 3rem), 1536px);
+  margin-inline: auto;
+}
+
+.liquid-section {
+  padding-inline: clamp(1rem, 4vw, 3rem);
+  padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+.liquid-card {
+  border-radius: clamp(1.25rem, 3vw, 2rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.liquid-heading-xl {
+  font-size: clamp(3rem, 9vw, 7rem);
+  line-height: 1.05;
+}
+
+.liquid-heading-lg {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  line-height: 1.08;
+}
+
+@media (max-width: 640px) {
+  .mobile-hide-decor {
+    display: none !important;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+@theme {
+  --color-primary: #6D5DF6; /* SaaS Purple */
+  --color-primary-dark: #5b4ee0;
+  --color-primary-light: #a399f9;
+  --color-secondary: #8B7CF8; /* SaaS Violet */
+  --color-accent: #ec4899;
+  
+  --color-surface: #ffffff;
+  --color-surface-muted: #f8fafc;
+  --color-border: #f1f5f9;
+  --color-text-dark: #0F172A;
+  --color-text-muted: #64748B;
+  
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-editorial: 'Playfair Display', serif;
+}
+
+/* Premium shadows inspired by Linear & Stripe */
+.shadow-premium {
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.03), 0 30px 60px rgb(109 93 246 / 0.04);
+}
+
+.shadow-premium-hover {
+  box-shadow: 0 20px 40px rgb(0 0 0 / 0.04), 0 40px 80px rgb(109 93 246 / 0.08);
+}
+
+.shadow-glass {
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.04);
+}
+
+/* Glassmorphism custom classes */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Floating animation */
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 5s ease-in-out infinite;
+  animation-delay: 2.5s;
+}
+
+.animate-float-slow {
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes draw {
+  0% {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.logo-draw {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw 1.2s ease infinite;
+}
+
+.logo-fade {
+  opacity: 0;
+  animation: fadeIn 0.8s ease 0.5s infinite;
+}
