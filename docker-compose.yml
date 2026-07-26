@@ -1,0 +1,9 @@
+services:
+  frontend:
+    image: 265751834194.dkr.ecr.ap-south-1.amazonaws.com/profiilo-fe:latest
+    container_name: profilio-frontend
+
+    ports:
+      - "80:80"
+
+    restart: unless-stopped
