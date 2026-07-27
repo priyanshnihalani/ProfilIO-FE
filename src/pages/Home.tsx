@@ -269,7 +269,7 @@ const Home = () => {
           {/* Hero Right: 3D Perspective Tilt Card Mockup */}
           <div className="lg:col-span-6 flex justify-center relative min-h-[320px] sm:min-h-[400px] lg:min-h-[500px] w-full">
             {/* Blown blur radial glow directly behind the card */}
-            <div className="mobile-hide-decor absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-gradient-to-tr from-[#6D5DF6]/20 to-[#8B7CF8]/20 rounded-full blur-[80px] -z-10" />
+            <div className="mobile-hide-decor absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px]bg-gradient-to-tr from-[#6D5DF6]/20 to-[#8B7CF8]/20 rounded-full blur-[80px] -z-10" />
 
             {/* Decorative Floating shapes with staggered breathing float animations */}
             {/* Blue/Purple sphere top left */}
