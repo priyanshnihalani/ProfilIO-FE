@@ -48,8 +48,8 @@ video {
 }
 
 .liquid-heading-xl {
-  font-size: clamp(3rem, 9vw, 7rem);
-  line-height: 1.05;
+  font-size: clamp(2.5rem, 6.5vw, 5rem);
+  line-height: 1.15;
 }
 
 .liquid-heading-lg {

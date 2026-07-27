@@ -12,6 +12,7 @@ import WelcomeScreen from './components/WelcomeScreen'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 import { AuthGuard, GuestGuard } from './components/auth/Guards'
+import GithubCallback from './pages/GithubCallback'
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
     element: (
       <GuestGuard>
         <Signup />
+      </GuestGuard>
+    ),
+  },
+  {
+    path: "/auth/github",
+    element: (
+      <GuestGuard>
+        <GithubCallback />
       </GuestGuard>
     ),
   },

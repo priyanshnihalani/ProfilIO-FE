@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
+import { RiGithubFill } from 'react-icons/ri';
 import { post } from '../services/ApiService';
 import AuthLayout from '../layout/AuthLayout';
 
@@ -17,6 +18,26 @@ const Login: React.FC = () => {
     const location = useLocation();
     const { login } = useAuth();
     const from = (location.state as { from?: { pathname?: string } } | null)?.from?.pathname || '/templates';
+
+    useEffect(() => {
+        const state = location.state as { oauthError?: string } | null;
+        if (state?.oauthError) {
+            setError(state.oauthError);
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
+
+    const handleGithubLogin = () => {
+        const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
+        const isMockMode = !clientId || clientId === 'your_github_client_id_placeholder';
+
+        if (isMockMode) {
+            navigate('/auth/github?code=mock_code_github');
+        } else {
+            const redirectUri = encodeURIComponent(`${window.location.origin}/auth/github`);
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,7 +61,8 @@ const Login: React.FC = () => {
             }
         } catch (err) {
             if (import.meta.env.DEV) console.error('Login failed:', err);
-            setError((err as any)?.response?.data?.message || 'Unable to sign in. Check your connection and try again.');
+            const errRes = err as { response?: { data?: { message?: string } } };
+            setError(errRes.response?.data?.message || 'Unable to sign in. Check your connection and try again.');
         } finally {
             setIsLoading(false);
         }
@@ -58,49 +80,49 @@ const Login: React.FC = () => {
             <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className=""
+                className="w-full"
             >
-                <div className="text-center mb-10">
-                    <h1 className="text-3xl font-black font-display text-[#0F172A] mb-2">Welcome Back</h1>
-                    <p className="text-sm text-slate-500">Sign in to continue building your resume</p>
+                <div className="text-center mb-6 sm:mb-8 md:mb-10">
+                    <h1 className="text-2xl sm:text-3xl font-black font-display text-[#0F172A] mb-1.5">Welcome Back</h1>
+                    <p className="text-xs sm:text-sm text-slate-500">Sign in to continue building your resume</p>
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 text-red-600 text-sm font-medium p-4 rounded-xl mb-6 border border-red-100">
+                    <div className="bg-red-50 text-red-600 text-xs sm:text-sm font-medium p-3.5 sm:p-4 rounded-xl mb-4 sm:mb-6 border border-red-100">
                         {error}
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                     <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Email</label>
+                        <label className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Email</label>
                         <div className="relative">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                <Mail className="w-5 h-5" />
+                            <div className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                <Mail className="w-4 h-4 sm:w-5 h-5" />
                             </div>
                             <input 
                                 type="email"
                                 required
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
-                                className="w-full h-14 pl-12 pr-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#6D5DF6] focus:ring-4 focus:ring-[#6D5DF6]/10 outline-none transition-all text-sm font-medium"
+                                className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#6D5DF6] focus:ring-4 focus:ring-[#6D5DF6]/10 outline-none transition-all text-xs sm:text-sm font-medium"
                                 placeholder="you@example.com"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-1.5">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Password</label>
+                        <label className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Password</label>
                         <div className="relative">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                <Lock className="w-5 h-5" />
+                            <div className="absolute left-3.5 sm:left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                <Lock className="w-4 h-4 sm:w-5 h-5" />
                             </div>
                             <input 
                                 type="password"
                                 required
                                 value={password}
                                 onChange={e => setPassword(e.target.value)}
-                                className="w-full h-14 pl-12 pr-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#6D5DF6] focus:ring-4 focus:ring-[#6D5DF6]/10 outline-none transition-all text-sm font-medium"
+                                className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#6D5DF6] focus:ring-4 focus:ring-[#6D5DF6]/10 outline-none transition-all text-xs sm:text-sm font-medium"
                                 placeholder="••••••••"
                             />
                         </div>
@@ -109,17 +131,34 @@ const Login: React.FC = () => {
                     <Button 
                         type="submit" 
                         disabled={isLoading}
-                        className="w-full h-14 rounded-2xl bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white font-bold shadow-md hover:shadow-lg hover:shadow-[#6D5DF6]/20 transition-all duration-300 mt-4"
+                        className="w-full h-12 sm:h-14 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg hover:shadow-[#6D5DF6]/20 transition-all duration-300 mt-2 sm:mt-4"
                     >
-                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : (
-                            <span className="flex items-center justify-center gap-2">
-                                Sign In <ArrowRight className="w-4 h-4" />
+                        {isLoading ? <Loader2 className="w-4 h-4 sm:w-5 h-5 animate-spin mx-auto" /> : (
+                            <span className="flex items-center justify-center gap-1.5 sm:gap-2">
+                                Sign In <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                             </span>
                         )}
                     </Button>
                 </form>
 
-                <p className="text-center text-sm text-slate-500 mt-8">
+                <div className="my-5 sm:my-6 md:my-7 flex items-center gap-3">
+                    <div className="h-px bg-slate-200 flex-1" />
+                    <span className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Or continue with</span>
+                    <div className="h-px bg-slate-200 flex-1" />
+                </div>
+
+                <Button 
+                    type="button" 
+                    variant="outline"
+                    onClick={handleGithubLogin}
+                    disabled={isLoading}
+                    className="w-full h-12 sm:h-14 rounded-xl sm:rounded-2xl bg-white hover:bg-slate-50 text-slate-700 text-xs sm:text-sm font-bold border-slate-200 shadow-sm flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer"
+                >
+                    <RiGithubFill className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    Sign In with GitHub
+                </Button>
+
+                <p className="text-center text-xs sm:text-sm text-slate-500 mt-6 sm:mt-8">
                     Don't have an account? <Link to="/signup" className="text-[#6D5DF6] font-bold hover:underline">Create one</Link>
                 </p>
             </motion.div>

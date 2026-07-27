@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     <div className="min-h-screen w-full flex bg-[#F8F9FC] font-sans overflow-x-hidden">
       
       {/* LEFT SIDE: Showcase Area (Hidden on mobile) */}
-      <div className="hidden lg:flex w-[45%] min-w-[420px] flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-8 xl:p-12 justify-between">
+      <div className="hidden lg:flex w-[45%] min-w-[420px] max-h-screen overflow-y-auto flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0">
         {/* Background decorative elements */}
         <div className="absolute top-10 right-10 grid grid-cols-4 gap-2 opacity-10">
           {[...Array(16)].map((_, i) => <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary" />)}
@@ -27,39 +27,39 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <div className="absolute -left-20 top-1/3 w-[500px] h-[500px] bg-white/40 rounded-full blur-[80px] pointer-events-none" />
 
         {/* Header & Copy */}
-        <div className="relative z-10 space-y-8 max-w-lg">
+        <div className="relative z-10 space-y-6 max-w-lg">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
             <img src="/logo.png" alt="ProfilIO" className="sm:10 md:h-12 2xl:h-14 w-auto object-contain object-scale-down cursor-pointer" />
           </div>
 
-          <div className="space-y-4 pt-4">
+          <div className="space-y-4 pt-2">
             <h1 className="text-[clamp(2.25rem,3vw,2.75rem)] leading-[1.1] font-extrabold text-[#0F172A] tracking-tight">
               Build ATS-Friendly<br/>
               Resumes That <span className="text-[#6D5DF6]">Get<br/>You Hired</span>
             </h1>
-            <p className="text-slate-600 font-medium text-lg leading-relaxed max-w-md">
+            <p className="text-slate-600 font-medium text-base xl:text-lg leading-relaxed max-w-md">
               Create professional resumes in minutes, track your applications, and land more interviews.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3 pt-2">
-            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white shadow-sm">
-              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><FileText className="w-4 h-4" /></div>
-              <span className="text-xs font-bold text-slate-700">ATS<br/><span className="text-slate-500 font-semibold">Optimized</span></span>
+          <div className="flex flex-wrap gap-2.5 pt-1">
+            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white shadow-sm">
+              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><FileText className="w-3.5 h-3.5" /></div>
+              <span className="text-[10px] font-bold text-slate-700">ATS<br/><span className="text-slate-500 font-semibold">Optimized</span></span>
             </div>
-            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white shadow-sm">
-              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><ShieldCheck className="w-4 h-4" /></div>
-              <span className="text-xs font-bold text-slate-700">Recruiter<br/><span className="text-slate-500 font-semibold">Approved</span></span>
+            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white shadow-sm">
+              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><ShieldCheck className="w-3.5 h-3.5" /></div>
+              <span className="text-[10px] font-bold text-slate-700">Recruiter<br/><span className="text-slate-500 font-semibold">Approved</span></span>
             </div>
-            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white shadow-sm">
-              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><Sparkles className="w-4 h-4" /></div>
-              <span className="text-xs font-bold text-slate-700">Proven<br/><span className="text-slate-500 font-semibold">Results</span></span>
+            <div className="flex items-center gap-2 bg-white/60 backdrop-blur-md px-3 py-1.5 rounded-xl border border-white shadow-sm">
+              <div className="p-1 rounded-md bg-[#6D5DF6]/10 text-[#6D5DF6]"><Sparkles className="w-3.5 h-3.5" /></div>
+              <span className="text-[10px] font-bold text-slate-700">Proven<br/><span className="text-slate-500 font-semibold">Results</span></span>
             </div>
           </div>
         </div>
 
         {/* Abstract App Mockup Illustration */}
-        <div className="relative mt-12 mb-8 flex-1 w-full max-w-[500px] h-[320px]">
+        <div className="relative mt-6 lg:mt-8 xl:mt-12 mb-6 flex-1 w-full max-w-[500px] h-[clamp(240px,30vh,340px)]">
           {/* Main App Window */}
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
@@ -156,37 +156,50 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           </motion.div>
         </div>
 
-
       </div>
 
       {/* RIGHT SIDE: Auth Form Area */}
-      <div className="w-full lg:w-[55%] flex flex-col relative py-8 px-4 sm:px-6 lg:px-12 items-center justify-center">
+      <div className="w-full lg:w-[55%] flex flex-col min-h-screen bg-[#F8F9FC] relative justify-between">
         
-        {/* Toggle Nav */}
-        <div className="absolute top-6 sm:top-8 left-1/2 -translate-x-1/2 flex items-center gap-6 sm:gap-12 border-b border-slate-200 pb-2 whitespace-nowrap">
-          <Link 
-            to="/signup" 
-            className={`text-sm font-bold pb-2 relative transition-colors ${!isLogin ? "text-[#6D5DF6]" : "text-slate-400 hover:text-slate-600"}`}
-          >
-            Create Account
-            {!isLogin && <motion.div layoutId="authTab" className="absolute bottom-[-9px] left-0 right-0 h-0.5 bg-[#6D5DF6]" />}
-          </Link>
-          <Link 
-            to="/login" 
-            className={`text-sm font-bold pb-2 relative transition-colors ${isLogin ? "text-[#6D5DF6]" : "text-slate-400 hover:text-slate-600"}`}
-          >
-            Sign In
-            {isLogin && <motion.div layoutId="authTab" className="absolute bottom-[-9px] left-0 right-0 h-0.5 bg-[#6D5DF6]" />}
-          </Link>
+        {/* Top Header Row (Logo for mobile + Navigation Tabs) */}
+        <div className="w-full flex flex-col items-center pt-8 pb-4 px-6 gap-6 shrink-0">
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
+            <img src="/logo.png" alt="ProfilIO" className="h-10 w-auto object-contain" />
+          </div>
+          
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-6 sm:gap-12 border-b border-slate-200 pb-2 whitespace-nowrap">
+            <Link 
+              to="/signup" 
+              className={`text-sm font-bold pb-2 relative transition-colors ${!isLogin ? "text-[#6D5DF6]" : "text-slate-400 hover:text-slate-600"}`}
+            >
+              Create Account
+              {!isLogin && <motion.div layoutId="authTab" className="absolute bottom-[-9px] left-0 right-0 h-0.5 bg-[#6D5DF6]" />}
+            </Link>
+            <Link 
+              to="/login" 
+              className={`text-sm font-bold pb-2 relative transition-colors ${isLogin ? "text-[#6D5DF6]" : "text-slate-400 hover:text-slate-600"}`}
+            >
+              Sign In
+              {isLogin && <motion.div layoutId="authTab" className="absolute bottom-[-9px] left-0 right-0 h-0.5 bg-[#6D5DF6]" />}
+            </Link>
+          </div>
         </div>
 
-        {/* Form Container */}
-        <div className="w-full max-w-[440px] mt-12 bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-premium border border-slate-100 p-5 sm:p-8 md:p-12">
-          {children}
+        {/* Form Container Area (grows to center the form card) */}
+        <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 w-full">
+          <div className="w-full max-w-[440px] bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-premium border border-slate-100 p-[clamp(1.25rem,4vw,2.5rem)]">
+            {children}
+          </div>
         </div>
 
-
-
+        {/* Footer Area for small screen links / alignment balance */}
+        <div className="w-full py-4 text-center shrink-0">
+          <p className="text-[10px] text-slate-400 font-medium">
+            © {new Date().getFullYear()} ProfilIO. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );

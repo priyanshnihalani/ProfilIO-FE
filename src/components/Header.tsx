@@ -54,7 +54,6 @@ const Header = () => {
               alt="ProfilIO"
               className="h-10 w-12 md:h-12 md:w-18 2xl:h-14 2xl:w-22 object-contain"
             />
-            <span className="text-[10px] font-semibold text-slate-400 ml-1.5 mt-0.5 inline">Beta</span>
           </div>
 
           {/* Desktop Nav */}
@@ -182,7 +181,6 @@ const Header = () => {
                     alt="ProfilIO"
                     className="h-10 w-12 object-contain"
                   />
-                  <span className="text-[10px] font-semibold text-slate-400 ml-1.5 mt-0.5">Beta</span>
                 </div>
                 <button
                   aria-label="Close menu"

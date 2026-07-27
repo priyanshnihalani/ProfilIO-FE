@@ -199,18 +199,16 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1, duration: 0.6 }}
-              className="liquid-heading-xl font-extrabold tracking-tight text-[#0F172A] font-display"
+              className="liquid-heading-xl font-extrabold tracking-tight text-[#0F172A] font-display max-w-xl"
             >
-              Build a Resume <br />
-              That Gets You <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D5DF6] via-[#8B7CF8] to-[#ec4899]">Hired.</span>
+              Build a Resume That Gets You <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6D5DF6] via-[#8B7CF8] to-[#ec4899]">Hired.</span>
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-lg md:text-xl text-[#64748B] font-light max-w-lg leading-relaxed font-sans"
+              className="text-base sm:text-lg md:text-xl text-[#64748B] font-light max-w-lg leading-relaxed font-sans"
             >
               Create ATS-friendly resumes in minutes. Designed with the precision of Apple and the visual depth of Linear. No design skills needed.
             </motion.p>
@@ -315,7 +313,7 @@ const Home = () => {
             </motion.div>
 
             {/* Elevated 3D Tilt Card */}
-            <TiltCard className="w-full max-w-3/4">
+            <TiltCard className="w-full max-w-[440px] px-4 sm:px-0">
               <div className="bg-white rounded-[2.25rem] border border-[#f1f5f9] liquid-card shadow-premium flex flex-col space-y-5 text-slate-700 relative overflow-hidden transition-all duration-300">
                 {/* Glass reflection shine overlay */}
                 <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/5 to-white/20 pointer-events-none" />

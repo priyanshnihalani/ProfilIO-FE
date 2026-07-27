@@ -257,76 +257,80 @@ const Pricing: React.FC = () => {
         </div>
 
         {/* Pricing Grid */}
-        <div className="flex justify-evenly items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto items-stretch justify-items-center px-4">
           {tiers.map((tier, index) => (
             <motion.div
               key={tier.name}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-              className={`relative rounded-[2.5rem] liquid-card ${tier.popular
-                ? 'bg-white text-[#0F172A] shadow-2xl shadow-[#6D5DF6]/20 md:-mt-8 border-2 border-[#6D5DF6]/50'
+              className={`relative rounded-[2.5rem] liquid-card w-full max-w-[400px] flex flex-col justify-between ${tier.popular
+                ? 'bg-white text-[#0F172A] shadow-2xl shadow-[#6D5DF6]/20 border-2 border-[#6D5DF6]/50 md:scale-[1.02]'
                 : 'bg-white text-[#0F172A] shadow-sm border border-slate-200'
                 }`}
             >
               {tier.popular && (
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
                   <div className="bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full flex items-center gap-1 shadow-lg shadow-[#6D5DF6]/30 animate-pulse">
                     <Zap className="w-3.5 h-3.5 fill-current" /> Most Popular
                   </div>
                 </div>
               )}
 
-              <div className="mb-8 text-left">
-                <h3 className="text-xl font-bold font-display mb-2 text-[#0F172A]">{tier.name}</h3>
-                <p className="text-sm h-10 text-slate-500">{tier.description}</p>
-              </div>
-
-              {tier.id === 'PRO' && user?.role !== 'ADMIN' ? (
-                <div className="mb-8 p-5 rounded-2xl bg-gradient-to-br from-[#6D5DF6]/5 to-[#8B7CF8]/10 border border-[#6D5DF6]/20 text-center relative overflow-hidden shadow-xs">
-                  <div className="absolute top-0 right-0 w-2 h-2 bg-emerald-500 rounded-full animate-ping m-3" />
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-[#6D5DF6]/15 text-[#6D5DF6] text-[10px] font-extrabold uppercase tracking-wider mb-2">
-                    Coming Soon
-                  </span>
-                  <h4 className="text-sm font-bold text-slate-800">Pro Plan Available Soon</h4>
-                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                    We are adding final touches to advanced custom features. Get ready to supercharge your resumes!
-                  </p>
-                </div>
-              ) : (
-                <>
-                  <div className="mb-8 flex items-baseline gap-1 text-left">
-                    <span className="text-3xl font-bold text-[#0F172A]">₹</span>
-                    <span className="text-5xl lg:text-6xl font-black font-display tracking-tight text-[#0F172A]">{tier.price}</span>
-                    <span className="text-sm font-medium text-slate-400">/ week</span>
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="mb-6 text-left">
+                    <h3 className="text-xl font-bold font-display mb-2 text-[#0F172A]">{tier.name}</h3>
+                    <p className="text-sm h-10 text-slate-500">{tier.description}</p>
                   </div>
 
-                  <Button
-                    variant={tier.buttonVariant as any}
-                    className={`w-full h-12 rounded-xl text-sm font-bold mb-8 transition-transform hover:scale-[1.02] active:scale-[0.98] ${tier.buttonVariant === 'outline'
-                        ? 'border-slate-200 text-[#0F172A] hover:bg-slate-50'
-                        : tier.buttonVariant === 'default'
-                          ? 'bg-[#0F172A] hover:bg-[#1E293B] text-white'
-                          : 'bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white border-0 hover:opacity-90'
-                      }`}
-                    onClick={tier.action}
-                    disabled={tier.disabled || isLoading}
-                  >
-                    {tier.buttonText}
-                  </Button>
-                </>
-              )}
+                  {tier.id === 'PRO' && user?.role !== 'ADMIN' ? (
+                    <div className="mb-8 p-5 rounded-2xl bg-gradient-to-br from-[#6D5DF6]/5 to-[#8B7CF8]/10 border border-[#6D5DF6]/20 text-center relative overflow-hidden shadow-xs">
+                      <div className="absolute top-0 right-0 w-2 h-2 bg-emerald-500 rounded-full animate-ping m-3" />
+                      <span className="inline-block px-2.5 py-1 rounded-full bg-[#6D5DF6]/15 text-[#6D5DF6] text-[10px] font-extrabold uppercase tracking-wider mb-2">
+                        Coming Soon
+                      </span>
+                      <h4 className="text-sm font-bold text-slate-800">Pro Plan Available Soon</h4>
+                      <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
+                        We are adding final touches to advanced custom features. Get ready to supercharge your resumes!
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col">
+                      <div className="mb-6 flex items-baseline gap-1 text-left">
+                        <span className="text-3xl font-bold text-[#0F172A]">₹</span>
+                        <span className="text-5xl lg:text-6xl font-black font-display tracking-tight text-[#0F172A]">{tier.price}</span>
+                        <span className="text-sm font-medium text-slate-400">/ week</span>
+                      </div>
 
-              <div className="space-y-4 text-left">
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-400">What's included</p>
-                <ul className="space-y-3">
-                  {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-[#6D5DF6]" />
-                      <span className="text-sm font-medium text-slate-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+                      <Button
+                        variant={tier.buttonVariant as "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" | "purple"}
+                        className={`w-full h-12 rounded-xl text-sm font-bold mb-8 transition-transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer ${tier.buttonVariant === 'outline'
+                            ? 'border-slate-200 text-[#0F172A] hover:bg-slate-50'
+                            : tier.buttonVariant === 'default'
+                              ? 'bg-[#0F172A] hover:bg-[#1E293B] text-white'
+                              : 'bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white border-0 hover:opacity-90'
+                          }`}
+                        onClick={tier.action}
+                        disabled={tier.disabled || isLoading}
+                      >
+                        {tier.buttonText}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-4 text-left border-t border-slate-100 pt-6 mt-auto">
+                  <p className="text-xs font-bold uppercase tracking-wider text-slate-400">What's included</p>
+                  <ul className="space-y-3">
+                    {tier.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-[#6D5DF6]" />
+                        <span className="text-sm font-medium text-slate-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </motion.div>
           ))}
