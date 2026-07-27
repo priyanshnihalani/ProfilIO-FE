@@ -157,7 +157,7 @@ const Pricing: React.FC = () => {
     } catch (err: any) {
       showNotification('error', 'Error launching checkout.');
       setIsLoading(false);
-    }
+    } 
   };
 
   const tiers = [
