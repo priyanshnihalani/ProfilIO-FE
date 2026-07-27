@@ -10,7 +10,7 @@ body {
 
 html {
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
   text-size-adjust: 100%;
 }
 
@@ -18,7 +18,7 @@ body,
 #root {
   min-width: 0;
   width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 * {
@@ -178,4 +178,43 @@ h6 {
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+/* Editor Active Layout Override */
+body.editor-active {
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+body.editor-active #root {
+  height: 100vh !important;
+  overflow: hidden !important;
+}
+
+body.editor-active footer {
+  display: none !important;
+}
+
+/* Premium Scrollbar */
+.premium-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(109, 93, 246, 0.3) transparent;
+}
+
+.premium-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.premium-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.premium-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(109, 93, 246, 0.4), rgba(139, 124, 248, 0.2));
+  border-radius: 999px;
+}
+
+.premium-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(109, 93, 246, 0.7), rgba(139, 124, 248, 0.5));
 }

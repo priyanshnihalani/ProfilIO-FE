@@ -685,7 +685,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttribu
         <textarea
             ref={ref}
             {...props}
-            className={`w-full bg-[#FAFAFC] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-[#0F172A] placeholder-[#bbb8b2] focus:outline-none focus:ring-2 focus:ring-[#6D5DF6] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all font-sans resize-none leading-relaxed ${className}`}
+            className={`w-full bg-[#FAFAFC] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-[#0F172A] placeholder-[#bbb8b2] focus:outline-none focus:ring-2 focus:ring-[#6D5DF6] focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50 transition-all font-sans resize-none leading-relaxed overflow-hidden ${className}`}
         />
     )
 );
@@ -1095,7 +1095,7 @@ const TemplateGallery: React.FC = () => {
                 {isDownloadingPdf && <WelcomeScreen />}
                 <div className="bg-[#FAFAFC] min-h-screen pt-20 pb-16 text-[#0F172A] font-sans">
                     {/* Sticky glass toolbar */}
-                    <div className="sticky top-18 z-40 bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 sm:px-6 md:px-10 py-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between shadow-xs print:hidden rounded-b-3xl max-w-screen-2xl mx-auto">
+                    <div className="bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 sm:px-6 md:px-10 py-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between shadow-xs print:hidden rounded-b-3xl w-full z-10">
                         <div className="flex items-center gap-4">
                             <Button
                                 variant="outline"
@@ -1180,7 +1180,7 @@ const TemplateGallery: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="max-w-[1480px] mx-auto px-3 sm:px-5 md:px-8 pt-6 md:pt-8 grid grid-cols-1 xl:grid-cols-[minmax(360px,480px)_minmax(0,1fr)] gap-6 md:gap-8 print:block print:p-0 items-start">
+                    <div className="max-w-[1480px] mx-auto px-3 sm:px-5 md:px-8 pt-6 md:pt-8 pb-8 grid grid-cols-1 xl:grid-cols-[minmax(360px,480px)_minmax(0,1fr)] gap-6 md:gap-8 print:block print:p-0 items-stretch">
                         {showAtsDashboard ? (
                             <div className="col-span-1 xl:col-span-2">
                                 <AtsDashboard
@@ -1202,7 +1202,8 @@ const TemplateGallery: React.FC = () => {
                         ) : (
                             <>
                                 {/* ── FORM PANEL ── */}
-                                <div className="h-fit print:hidden space-y-1 xl:sticky xl:top-[88px] xl:max-h-[calc(100vh-108px)] xl:overflow-y-auto xl:pr-1">
+                                <div className="print:hidden flex flex-col" style={{ position: 'sticky', top: '80px', maxHeight: 'calc(100vh - 80px)', overflowY: 'auto' }}>
+                                    <div className="flex-grow space-y-4 pb-4 premium-scroll" style={{ overflowY: 'auto' }}>
                                     {/* ATS score + header */}
                                     <div className="bg-white border border-[#f1f5f9] rounded-3xl p-6 shadow-glass flex items-center justify-between gap-4 mb-4">
                                         <div className="text-left">
@@ -1485,6 +1486,7 @@ const TemplateGallery: React.FC = () => {
                                             Update Resume Preview
                                         </Button>
                                     </div>
+                                    </div>
                                 </div>
 
                                 {/* ── PREVIEW PANEL ── */}
@@ -1505,7 +1507,7 @@ const TemplateGallery: React.FC = () => {
                                 >
                                     {activeTemplate.render(resumeData)}
                                 </div>
-                                <div className="flex justify-center print:block xl:sticky xl:top-[88px] xl:self-start w-full min-w-0 overflow-hidden" ref={previewParentRef}>
+                                <div className="flex justify-center print:block w-full min-w-0" ref={previewParentRef}>
                                     <div
                                         className="print:w-full"
                                         style={{
