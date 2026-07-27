@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     <div className="min-h-screen w-full flex bg-[#F8F9FC] font-sans overflow-x-hidden">
       
       {/* LEFT SIDE: Showcase Area (Hidden on mobile) */}
-      <div className="hidden lg:flex w-[45%] min-w-[420px] max-h-screen overflow-y-auto flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0">
+      <div className="hidden lg:flex w-[45%] min-w-[420px] h-screen overflow-y-auto no-scrollbar flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0">
         {/* Background decorative elements */}
         <div className="absolute top-10 right-10 grid grid-cols-4 gap-2 opacity-10">
           {[...Array(16)].map((_, i) => <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary" />)}
