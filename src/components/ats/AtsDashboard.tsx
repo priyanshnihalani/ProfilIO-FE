@@ -200,7 +200,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                     </div>
 
                     {/* Prioritized Recommendations */}
-                    {recommendations.length > 0 && (
+                    {/* {recommendations.length > 0 && (
                         <div className="bg-gradient-to-br from-[#6D5DF6]/5 to-pink-500/5 p-6 rounded-3xl border border-[#6D5DF6]/10">
                             <div className="flex items-center gap-3 mb-5">
                                 <div className="p-2 bg-[#6D5DF6]/10 rounded-lg text-[#6D5DF6]">
@@ -242,7 +242,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                 }
                             </Button>
                         </div>
-                    )}
+                    )} */}
 
                     {/* Keywords */}
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
