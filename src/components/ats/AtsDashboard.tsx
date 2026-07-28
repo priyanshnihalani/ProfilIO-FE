@@ -30,15 +30,9 @@ const DIMENSION_META: Record<string, { label: string; icon: React.ReactNode; wei
     atsAntiPatterns:     { label: 'ATS Anti-Patterns',    icon: <Ban className="w-4 h-4" />,         weight: 6  },
 };
 
-const PRIORITY_STYLES: Record<string, string> = {
-    critical: 'bg-red-50 text-red-600 border-red-100',
-    high:     'bg-amber-50 text-amber-600 border-amber-100',
-    medium:   'bg-blue-50 text-blue-600 border-blue-100',
-    low:      'bg-slate-50 text-slate-500 border-slate-100',
-};
 
 export const AtsDashboard: React.FC<AtsDashboardProps> = ({
-    analysis, isLoading, isImproving, onAnalyze, onImprove, onBack, onAddKeywords,
+    analysis, isLoading, onAnalyze, onBack, onAddKeywords,
 }) => {
     const [jobDescription, setJobDescription] = useState('');
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
@@ -137,7 +131,6 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
     const alignmentStrengths = analysis?.details?.alignment?.alignment_strengths ?? [];
     const quantified       = analysis?.details?.impact?.quantified_bullet_count ?? 0;
     const totalBullets     = analysis?.details?.impact?.total_bullet_count     ?? 0;
-    const recommendations  = analysis?.recommendations ?? [];
 
     return (
         <div className="flex flex-col gap-6 font-sans">
