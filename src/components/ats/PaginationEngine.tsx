@@ -7,7 +7,7 @@ export interface PaginationOptions {
   debugPagination?: boolean;
   marginTop?: number;
   marginBottom?: number;
-}
+};
 
 export interface PaginatedPage {
   sidebarBlockKeys: string[];
