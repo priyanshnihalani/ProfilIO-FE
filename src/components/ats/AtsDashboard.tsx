@@ -339,7 +339,6 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                             )}
                         </div>
                     )}
-
                     {/* Role Alignment */}
                     {(alignmentStrengths.length > 0 || alignmentGaps.length > 0) && (
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
