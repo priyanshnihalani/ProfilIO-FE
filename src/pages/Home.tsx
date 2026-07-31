@@ -174,7 +174,7 @@ const Home = () => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   return (
-    <main className="pt-16 sm:pt-20 overflow-x-hidden bg-[#FAFAFC] text-[#0F172A] lg:h-screen lg:overflow-hidden">
+    <main className="pt-16 sm:pt-20 overflow-x-hidden bg-[#FAFAFC] text-[#0F172A]">
       
       {/* 1. HERO SECTION */}
       <section className="relative liquid-section max-w-screen-2xl mx-auto overflow-hidden pb-10 sm:pb-16">

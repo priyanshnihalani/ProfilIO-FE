@@ -59,7 +59,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         </div>
 
         {/* Abstract App Mockup Illustration */}
-        <div className="relative mt-6 lg:mt-8 xl:mt-12 mb-6 flex-1 w-full max-w-[500px] h-[300px] xl:h-[340px] 2xl:h-[380px]">
+        <div className="relative mt-6 lg:mt-8 xl:mt-12 mb-6 flex-1 w-full max-w-[500px] min-h-[300px] xl:min-h-[340px] 2xl:min-h-[380px] shrink-0">
           {/* Main App Window */}
           <motion.div 
             initial={{ y: 20, opacity: 0 }}

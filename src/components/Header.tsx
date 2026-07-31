@@ -42,7 +42,7 @@ const Header = () => {
   return (
     <>
       <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm">
-        <div className="flex items-center justify-between w-full px-4 sm:px-6 lg:px-10 py-3 sm:py-4 max-w-screen-2xl mx-auto">
+        <div className="flex items-center justify-between w-full px-4 sm:px-6 lg:px-10  max-w-screen-2xl mx-auto">
 
           {/* Logo */}
           <div
