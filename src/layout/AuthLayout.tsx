@@ -29,7 +29,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         {/* Header & Copy */}
         <div className="relative z-10 space-y-6 max-w-lg">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate("/")}>
-            <img src="/logo.png" alt="ProfilIO" className="sm:10 md:h-12 2xl:h-14 w-auto object-contain object-scale-down cursor-pointer" />
+            <img src="/logo.png" alt="ProfilIO" className="h-5 sm:h-6 md:h-7 2xl:h-8 w-auto object-contain cursor-pointer" />
           </div>
 
           <div className="space-y-4 pt-2">
@@ -165,7 +165,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <div className="w-full flex flex-col items-center pt-8 pb-4 px-6 gap-6 shrink-0">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
-            <img src="/logo.png" alt="ProfilIO" className="h-10 w-auto object-contain" />
+            <img src="/logo.png" alt="ProfilIO" className="h-6 sm:h-7 w-auto object-contain" />
           </div>
           
           {/* Navigation Tabs */}
