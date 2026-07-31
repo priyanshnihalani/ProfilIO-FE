@@ -20,6 +20,8 @@ import {
     CheckCircle,
     Lock,
     Crown,
+    MessageSquare,
+    Send,
     Gem
 } from 'lucide-react';
 import MinimalClean from '../templates/MinimalClean';
@@ -47,6 +49,7 @@ import { AtsDashboard } from '../components/ats/AtsDashboard';
 import { ResumeDocument, ResumePage, useResumePagination } from '../components/ats/PaginationEngine';
 import templateStyles from '../templates/TemplateStyles.css?raw';
 import { Button } from '../components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -737,6 +740,15 @@ const TemplateGallery: React.FC = () => {
         type: "success" | "error" | "info";
         message: string;
     } | null>(null);
+    const [mobileEditorView, setMobileEditorView] = useState<'form' | 'preview'>('form');
+    const [feedbackOpen, setFeedbackOpen] = useState(false);
+    const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
+    const [feedbackForm, setFeedbackForm] = useState({
+        name: user?.fullName || '',
+        email: user?.email || '',
+        rating: '5',
+        message: '',
+    });
 
 
     // ATS States
@@ -867,6 +879,43 @@ const TemplateGallery: React.FC = () => {
     };
 
     useEffect(() => {
+        setFeedbackForm((current) => ({
+            ...current,
+            name: current.name || user?.fullName || '',
+            email: current.email || user?.email || '',
+        }));
+    }, [user?.email, user?.fullName]);
+
+    const submitFeedback = async (event: React.FormEvent) => {
+        event.preventDefault();
+
+        if (!feedbackForm.message.trim()) {
+            showNotification('error', 'Please enter your feedback.');
+            return;
+        }
+
+        setIsSubmittingFeedback(true);
+        try {
+            const response = await post('feedback', {
+                ...feedbackForm,
+                page: window.location.pathname,
+            });
+
+            if (response.data?.success) {
+                showNotification('success', 'Thanks for the feedback.');
+                setFeedbackOpen(false);
+                setFeedbackForm((current) => ({ ...current, message: '', rating: '5' }));
+            } else {
+                showNotification('error', response.data?.message || 'Failed to send feedback.');
+            }
+        } catch (error) {
+            showNotification('error', (error as any)?.response?.data?.message || 'Failed to send feedback.');
+        } finally {
+            setIsSubmittingFeedback(false);
+        }
+    };
+
+    useEffect(() => {
         const handleBlur = () => {
             const activeElement = document.activeElement as HTMLElement;
             if (activeElement?.matches('[contenteditable="true"]')) {
@@ -911,6 +960,7 @@ const TemplateGallery: React.FC = () => {
             const parent = previewParentRef.current;
             if (!parent) return;
             const parentWidth = parent.offsetWidth;
+            if (!parentWidth) return;
             if (parentWidth < 794) {
                 setPreviewScale(parentWidth / 794);
             } else {
@@ -927,7 +977,7 @@ const TemplateGallery: React.FC = () => {
             window.removeEventListener('resize', handleResize);
             clearTimeout(timer);
         };
-    }, [resumeData, selectedId, totalPages]);
+    }, [resumeData, selectedId, totalPages, mobileEditorView]);
 
     const canUsePremiumTemplates = isPremium();
 
@@ -993,6 +1043,7 @@ const TemplateGallery: React.FC = () => {
 
     const fillTemplate = () => {
         setResumeData(buildResumeData(form));
+        setMobileEditorView('preview');
     };
 
     const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -1088,10 +1139,83 @@ const TemplateGallery: React.FC = () => {
         }
     };
 
+    const FeedbackModal = (
+        <Dialog open={feedbackOpen} onOpenChange={setFeedbackOpen}>
+            <DialogContent className="mx-4 max-w-md rounded-2xl">
+                <DialogHeader>
+                    <DialogTitle>Send feedback</DialogTitle>
+                    <DialogDescription>
+                        Tell us what worked, what broke, or what would make ProfilIO better.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <form onSubmit={submitFeedback} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <Label>Name</Label>
+                            <Input
+                                placeholder="Your name"
+                                value={feedbackForm.name}
+                                onChange={(event) => setFeedbackForm((current) => ({ ...current, name: event.target.value }))}
+                            />
+                        </div>
+                        <div>
+                            <Label>Email</Label>
+                            <Input
+                                type="email"
+                                placeholder="you@email.com"
+                                value={feedbackForm.email}
+                                onChange={(event) => setFeedbackForm((current) => ({ ...current, email: event.target.value }))}
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <Label>Rating</Label>
+                        <select
+                            value={feedbackForm.rating}
+                            onChange={(event) => setFeedbackForm((current) => ({ ...current, rating: event.target.value }))}
+                            className="w-full bg-[#FAFAFC] border border-slate-200 rounded-xl px-4 py-3.5 text-sm text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#6D5DF6] focus:border-transparent transition-all font-sans"
+                        >
+                            <option value="5">5 - Excellent</option>
+                            <option value="4">4 - Good</option>
+                            <option value="3">3 - Okay</option>
+                            <option value="2">2 - Needs work</option>
+                            <option value="1">1 - Poor</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <Label>Feedback</Label>
+                        <Textarea
+                            rows={5}
+                            placeholder="Share the issue, idea, or improvement..."
+                            value={feedbackForm.message}
+                            onChange={(event) => setFeedbackForm((current) => ({ ...current, message: event.target.value }))}
+                        />
+                    </div>
+
+                    <DialogFooter>
+                        <Button
+                            type="submit"
+                            variant="purple"
+                            className="w-full sm:w-auto"
+                            disabled={isSubmittingFeedback}
+                        >
+                            <Send className="h-4 w-4" />
+                            {isSubmittingFeedback ? 'Sending...' : 'Send Feedback'}
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+    );
+
     if (activeTemplate) {
         return (
             <>
                 <Notification notification={notification} />
+                {FeedbackModal}
                 {isDownloadingPdf && <WelcomeScreen />}
                 <div className="bg-[#FAFAFC] min-h-screen pt-20 pb-16 text-[#0F172A] font-sans">
                     {/* Sticky glass toolbar */}
@@ -1153,6 +1277,15 @@ const TemplateGallery: React.FC = () => {
                                 Download TXT
                             </Button>
 
+                            <Button
+                                variant="outline"
+                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
+                                onClick={() => setFeedbackOpen(true)}
+                            >
+                                <MessageSquare className="w-3.5 h-3.5" />
+                                Feedback
+                            </Button>
+
                             {/* <Button
                                 variant={showAtsDashboard ? "purple" : "outline"}
                                 className={showAtsDashboard ? "h-9.5 text-xs rounded-xl shadow-md bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white cursor-pointer" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"}
@@ -1180,6 +1313,27 @@ const TemplateGallery: React.FC = () => {
                         </div>
                     </div>
 
+                    {!showAtsDashboard && (
+                        <div className="xl:hidden max-w-[1480px] mx-auto px-3 sm:px-5 md:px-8 pt-5 print:hidden">
+                            <div className="grid grid-cols-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-glass">
+                                <button
+                                    type="button"
+                                    onClick={() => setMobileEditorView('form')}
+                                    className={`rounded-xl px-4 py-3 text-sm font-bold transition-all ${mobileEditorView === 'form' ? 'bg-[#6D5DF6] text-white shadow-md' : 'text-slate-600 hover:bg-slate-50'}`}
+                                >
+                                    Form
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setMobileEditorView('preview')}
+                                    className={`rounded-xl px-4 py-3 text-sm font-bold transition-all ${mobileEditorView === 'preview' ? 'bg-[#6D5DF6] text-white shadow-md' : 'text-slate-600 hover:bg-slate-50'}`}
+                                >
+                                    Preview
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                     <div className="max-w-[1480px] mx-auto px-3 sm:px-5 md:px-8 pt-6 md:pt-8 pb-8 grid grid-cols-1 xl:grid-cols-[minmax(360px,480px)_minmax(0,1fr)] gap-6 md:gap-8 print:block print:p-0 items-stretch">
                         {showAtsDashboard ? (
                             <div className="col-span-1 xl:col-span-2">
@@ -1202,8 +1356,8 @@ const TemplateGallery: React.FC = () => {
                         ) : (
                             <>
                                 {/* ── FORM PANEL ── */}
-                                <div className="print:hidden flex flex-col" style={{ position: 'sticky', top: '80px', maxHeight: 'calc(100vh - 80px)', overflowY: 'auto' }}>
-                                    <div className="flex-grow space-y-4 pb-4 premium-scroll" style={{ overflowY: 'auto' }}>
+                                <div className={`print:hidden flex-col xl:sticky xl:top-20 xl:max-h-[calc(100vh-80px)] xl:overflow-y-auto ${mobileEditorView === 'form' ? 'flex' : 'hidden'} xl:flex`}>
+                                    <div className="flex-grow space-y-4 pb-4 premium-scroll xl:overflow-y-auto">
                                     {/* ATS score + header */}
                                     <div className="bg-white border border-[#f1f5f9] rounded-3xl p-6 shadow-glass flex items-center justify-between gap-4 mb-4">
                                         <div className="text-left">
@@ -1507,7 +1661,7 @@ const TemplateGallery: React.FC = () => {
                                 >
                                     {activeTemplate.render(resumeData)}
                                 </div>
-                                <div className="flex justify-center print:block w-full min-w-0" ref={previewParentRef}>
+                                <div className={`${mobileEditorView === 'preview' ? 'flex' : 'hidden'} xl:flex justify-center print:block w-full min-w-0`} ref={previewParentRef}>
                                     <div
                                         className="print:w-full"
                                         style={{
@@ -1573,6 +1727,8 @@ const TemplateGallery: React.FC = () => {
 
     return (
         <>
+            <Notification notification={notification} />
+            {FeedbackModal}
             <div className="bg-[#FAFAFC] min-h-screen text-[#0F172A] pt-28 md:pt-32 pb-20 md:pb-24 overflow-x-hidden font-sans">
                 <div className="max-w-[1160px] mx-auto px-4 sm:px-6 lg:px-12 text-center mb-12 md:mb-16">
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#6D5DF6]/10 text-[#6D5DF6] mb-6">
@@ -1742,6 +1898,17 @@ const TemplateGallery: React.FC = () => {
                         </div>
                     </div>
                 </div>
+
+                <Button
+                    variant="purple"
+                    size="icon"
+                    className="fixed bottom-5 right-5 z-40 h-12 w-12 rounded-full shadow-xl print:hidden"
+                    onClick={() => setFeedbackOpen(true)}
+                    title="Send feedback"
+                    aria-label="Send feedback"
+                >
+                    <MessageSquare className="h-5 w-5" />
+                </Button>
             </div>
         </>
     );
