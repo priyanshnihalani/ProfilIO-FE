@@ -26,7 +26,7 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ onComplete }) => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <img src="/logo.png" alt="ProfilIO" className="h-10 w-auto object-contain" />
+            <img src="/logo.png" alt="ProfilIO" className="h-22 w-auto object-contain" />
           </motion.div>
           
           {/* Radial glow effect */}

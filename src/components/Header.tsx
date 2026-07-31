@@ -52,7 +52,7 @@ const Header = () => {
             <img
               src="/logo.png"
               alt="ProfilIO"
-              className="h-5 sm:h-6 md:h-7 2xl:h-8 w-auto object-contain"
+              className="h-16 md:h-20 w-auto object-contain"
             />
           </div>
 
@@ -179,7 +179,7 @@ const Header = () => {
                   <img
                     src="/logo.png"
                     alt="ProfilIO"
-                    className="h-6 sm:h-7 w-auto object-contain"
+                    className="h-12 md:h-16 w-auto object-contain"
                   />
                 </div>
                 <button

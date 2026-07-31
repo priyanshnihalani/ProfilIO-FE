@@ -15,7 +15,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   const Logo = () => (
-      <img onClick={() => navigate('/')} src="/logo.png" alt="ProfilIO" className="h-8 w-auto object-contain cursor-pointer" />
+      <img onClick={() => navigate('/')} src="/logo.png" alt="ProfilIO" className="h-10 w-auto object-contain cursor-pointer" />
   );
 
   return (
