@@ -27,6 +27,7 @@ export type AtsAnalysisResult = {
         contactInfo: number;
         readability: number;
         atsAntiPatterns: number;
+        enterpriseImpact?: number;
     };
 
     recommendations: Array<{
@@ -35,6 +36,7 @@ export type AtsAnalysisResult = {
         issue: string;
         fix: string;
         impact: string;
+        estimatedScoreGain?: number;
     }>;
 
     details: {
@@ -53,6 +55,39 @@ export type AtsAnalysisResult = {
             alignment_strengths: string[];
             unsupported_skill_matches?: string[];
         };
+        sectionScores?: Array<{
+            key: string;
+            label: string;
+            score: number;
+            wordCount: number;
+            bulletCount: number;
+            notes: string[];
+        }>;
+        parserSimulation?: {
+            name: string | null;
+            email: string | null;
+            phone: string | null;
+            location: string | null;
+            linkedin: string | null;
+            sectionsDetected: string[];
+            missingSections: string[];
+            companiesOrRoles: string[];
+            dates: string[];
+        };
+        lineLevelIssues?: Array<{
+            line: number | null;
+            section: string;
+            severity: "critical" | "high" | "medium" | "low";
+            issue: string;
+            fix: string;
+            evidence: string | null;
+        }>;
+        keywordEvidence?: Array<{
+            keyword: string;
+            status: "found" | "missing";
+            line: number | null;
+            evidence: string | null;
+        }>;
     };
 };
 

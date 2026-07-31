@@ -21,18 +21,96 @@ interface AtsDashboardProps {
 // Maps dimension keys → human label + icon + weight
 const DIMENSION_META: Record<string, { label: string; icon: React.ReactNode; weight: number }> = {
     keywordRelevance:    { label: 'Keyword Relevance',    icon: <Search className="w-4 h-4" />,      weight: 22 },
-    formatParsability:   { label: 'Format Parsability',   icon: <FileText className="w-4 h-4" />,    weight: 18 },
+    formatParsability:   { label: 'Format Parsability',   icon: <FileText className="w-4 h-4" />,    weight: 16 },
     impactLanguage:      { label: 'Impact Language',      icon: <Zap className="w-4 h-4" />,         weight: 15 },
     sectionCompleteness: { label: 'Section Completeness', icon: <CheckCircle2 className="w-4 h-4" />,weight: 12 },
-    roleAlignment:       { label: 'Role Alignment',       icon: <Target className="w-4 h-4" />,      weight: 12 },
+    roleAlignment:       { label: 'Role Alignment',       icon: <Target className="w-4 h-4" />,      weight: 10 },
     contactInfo:         { label: 'Contact Info',         icon: <User className="w-4 h-4" />,        weight: 8  },
-    readability:         { label: 'Readability',          icon: <Eye className="w-4 h-4" />,         weight: 7  },
+    readability:         { label: 'Readability',          icon: <Eye className="w-4 h-4" />,         weight: 6  },
     atsAntiPatterns:     { label: 'ATS Anti-Patterns',    icon: <Ban className="w-4 h-4" />,         weight: 6  },
+    enterpriseImpact:    { label: 'Enterprise Impact',    icon: <ShieldCheck className="w-4 h-4" />, weight: 5  },
+};
+
+const formatSkillName = (skill: string) => {
+    const mapping: Record<string, string> = {
+        react: 'React',
+        javascript: 'JavaScript',
+        typescript: 'TypeScript',
+        css: 'CSS',
+        html: 'HTML',
+        git: 'Git',
+        responsive: 'Responsive Design',
+        docker: 'Docker',
+        kubernetes: 'Kubernetes',
+        aws: 'AWS',
+        linux: 'Linux',
+        ansible: 'Ansible',
+        prometheus: 'Prometheus',
+        grafana: 'Grafana',
+        sla: 'SLA',
+        slo: 'SLO',
+        incident: 'Incident Management',
+        'node.js': 'Node.js',
+        express: 'Express.js',
+        sql: 'SQL',
+        mongodb: 'MongoDB',
+        postgresql: 'PostgreSQL',
+        api: 'APIs',
+        rest: 'REST APIs',
+        mern: 'MERN Stack',
+        python: 'Python',
+        'machine learning': 'Machine Learning',
+        pandas: 'Pandas',
+        tensorflow: 'TensorFlow',
+        statistics: 'Statistics',
+        excel: 'Excel',
+        tableau: 'Tableau',
+        'power bi': 'Power BI',
+        analytics: 'Analytics',
+        spark: 'Apache Spark',
+        kafka: 'Apache Kafka',
+        etl: 'ETL Pipelines',
+        airflow: 'Apache Airflow',
+        roadmap: 'Product Roadmap',
+        agile: 'Agile Methodology',
+        scrum: 'Scrum',
+        kpis: 'KPIs',
+        figma: 'Figma',
+        prototyping: 'Prototyping',
+        wireframing: 'Wireframing',
+        ux: 'UX Design',
+        ui: 'UI Design',
+        'design systems': 'Design Systems',
+        'react native': 'React Native',
+        ios: 'iOS',
+        android: 'Android',
+        swift: 'Swift',
+        kotlin: 'Kotlin',
+        flutter: 'Flutter',
+        'penetration testing': 'Penetration Testing',
+        siem: 'SIEM',
+        firewall: 'Firewalls',
+        owasp: 'OWASP',
+        compliance: 'Compliance',
+        iam: 'IAM',
+        pytorch: 'PyTorch',
+        'scikit-learn': 'Scikit-Learn',
+        mlops: 'MLOps',
+        java: 'Java',
+        testing: 'Testing',
+        selenium: 'Selenium',
+        automation: 'Automation',
+        cypress: 'Cypress',
+        'api testing': 'API Testing',
+        qa: 'QA',
+    };
+    const key = skill.toLowerCase().trim();
+    return mapping[key] || skill.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 };
 
 
 export const AtsDashboard: React.FC<AtsDashboardProps> = ({
-    analysis, isLoading, onAnalyze, onBack, onAddKeywords,
+    analysis, isLoading, isImproving, onAnalyze, onImprove, onBack, onAddKeywords,
 }) => {
     const [jobDescription, setJobDescription] = useState('');
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
@@ -131,6 +209,17 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
     const alignmentStrengths = analysis?.details?.alignment?.alignment_strengths ?? [];
     const quantified       = analysis?.details?.impact?.quantified_bullet_count ?? 0;
     const totalBullets     = analysis?.details?.impact?.total_bullet_count     ?? 0;
+    const recommendations  = analysis?.recommendations ?? [];
+    const sectionScores    = analysis?.details?.sectionScores ?? [];
+    const parserSimulation = analysis?.details?.parserSimulation;
+    const lineLevelIssues  = analysis?.details?.lineLevelIssues ?? [];
+
+    const priorityStyles: Record<string, string> = {
+        critical: 'bg-red-50 text-red-700 border-red-100',
+        high: 'bg-amber-50 text-amber-700 border-amber-100',
+        medium: 'bg-blue-50 text-blue-700 border-blue-100',
+        low: 'bg-slate-50 text-slate-600 border-slate-100',
+    };
 
     return (
         <div className="flex flex-col gap-6 font-sans">
@@ -193,7 +282,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                     </div>
 
                     {/* Prioritized Recommendations */}
-                    {/* {recommendations.length > 0 && (
+                    {recommendations.length > 0 && (
                         <div className="bg-gradient-to-br from-[#6D5DF6]/5 to-pink-500/5 p-6 rounded-3xl border border-[#6D5DF6]/10">
                             <div className="flex items-center gap-3 mb-5">
                                 <div className="p-2 bg-[#6D5DF6]/10 rounded-lg text-[#6D5DF6]">
@@ -209,10 +298,15 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                 {recommendations.map((rec, idx) => (
                                     <div key={idx} className="bg-white rounded-2xl p-4 border border-slate-100">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className={`text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border ${PRIORITY_STYLES[rec.priority] ?? PRIORITY_STYLES.low}`}>
+                                            <span className={`text-[10px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full border ${priorityStyles[rec.priority] ?? priorityStyles.low}`}>
                                                 {rec.priority}
                                             </span>
                                             <span className="text-xs text-slate-400 font-medium">{rec.dimension}</span>
+                                            {rec.estimatedScoreGain && (
+                                                <span className="ml-auto text-[10px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 rounded-full px-2 py-1">
+                                                    +{rec.estimatedScoreGain} pts est.
+                                                </span>
+                                            )}
                                         </div>
                                         <p className="text-sm font-semibold text-slate-700 mb-1">{rec.issue}</p>
                                         <p className="text-xs text-slate-500 border-l-2 border-slate-200 pl-3">{rec.fix}</p>
@@ -235,7 +329,107 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                 }
                             </Button>
                         </div>
-                    )} */}
+                    )}
+
+                    {/* Section Scores */}
+                    {sectionScores.length > 0 && (
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <FileText className="w-5 h-5 text-[#6D5DF6]" />
+                                Section-Level Scores
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {sectionScores.map((section) => (
+                                    <div key={section.key} className="rounded-2xl border border-slate-100 bg-slate-50/60 p-4">
+                                        <div className="flex items-center justify-between gap-3 mb-2">
+                                            <div>
+                                                <p className="text-sm font-bold text-slate-700">{section.label}</p>
+                                                <p className="text-[11px] text-slate-400">
+                                                    {section.wordCount} words · {section.bulletCount} bullets
+                                                </p>
+                                            </div>
+                                            <span className={`text-lg font-black ${scoreColor(section.score)}`}>{section.score}</span>
+                                        </div>
+                                        <div className="h-2 w-full bg-white rounded-full overflow-hidden mb-3">
+                                            <div className={`h-full ${barColor(section.score)}`} style={{ width: `${section.score}%` }} />
+                                        </div>
+                                        {section.notes.length > 0 ? (
+                                            <ul className="space-y-1">
+                                                {section.notes.slice(0, 2).map((note, index) => (
+                                                    <li key={index} className="text-xs text-slate-500 leading-relaxed">{note}</li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p className="text-xs text-emerald-600 font-medium">Looks solid for ATS parsing.</p>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* ATS Parser Simulation */}
+                    {parserSimulation && (
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <Eye className="w-5 h-5 text-[#6D5DF6]" />
+                                ATS Parser Simulation
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                {[
+                                    ['Name', parserSimulation.name],
+                                    ['Email', parserSimulation.email],
+                                    ['Phone', parserSimulation.phone],
+                                    ['Location', parserSimulation.location],
+                                    ['LinkedIn', parserSimulation.linkedin],
+                                    ['Dates found', parserSimulation.dates?.join(', ')],
+                                ].map(([label, value]) => (
+                                    <div key={label} className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3">
+                                        <p className="text-[10px] font-bold uppercase tracking-wide text-slate-400">{label}</p>
+                                        <p className={`mt-1 text-xs font-semibold ${value ? 'text-slate-700' : 'text-red-500'}`}>
+                                            {value || 'Not detected'}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                            {parserSimulation.companiesOrRoles?.length > 0 && (
+                                <div className="mt-4">
+                                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">Roles / companies parsed</p>
+                                    <div className="space-y-1">
+                                        {parserSimulation.companiesOrRoles.slice(0, 5).map((item, index) => (
+                                            <p key={index} className="text-xs text-slate-600 rounded-xl bg-slate-50 px-3 py-2">{item}</p>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Line-Level Fixes */}
+                    {lineLevelIssues.length > 0 && (
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                            <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                <AlertTriangle className="w-5 h-5 text-amber-500" />
+                                Line-Level Fixes
+                            </h3>
+                            <div className="space-y-3">
+                                {lineLevelIssues.slice(0, 8).map((item, index) => (
+                                    <div key={index} className="rounded-2xl border border-slate-100 p-4">
+                                        <div className="flex flex-wrap items-center gap-2 mb-2">
+                                            <span className={`text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full border ${priorityStyles[item.severity] ?? priorityStyles.low}`}>
+                                                {item.severity}
+                                            </span>
+                                            <span className="text-xs font-bold text-slate-500">{item.section}</span>
+                                            {item.line && <span className="text-xs text-slate-400">Line {item.line}</span>}
+                                        </div>
+                                        <p className="text-sm font-semibold text-slate-700">{item.issue}</p>
+                                        {item.evidence && <p className="mt-2 text-xs text-slate-500 bg-slate-50 rounded-xl px-3 py-2">{item.evidence}</p>}
+                                        <p className="mt-2 text-xs text-[#6D5DF6] font-medium">{item.fix}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Keywords */}
                     <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
@@ -320,7 +514,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                     </div>
                                     <p className="text-xs text-slate-500 leading-relaxed">
                                         {Math.round((quantified / totalBullets) * 100)}% of your bullets contain measurable metrics.
-                                        Aim for 50%+ to pass modern ATS filters.
+                                        Aim for 40%+ to pass modern ATS filters.
                                     </p>
                                 </div>
                             )}
@@ -361,7 +555,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                             {alignmentStrengths.map((s, i) => (
                                                 <li key={i} className="flex gap-2 text-xs text-slate-600">
                                                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
-                                                    {s}
+                                                    {formatSkillName(s)}
                                                 </li>
                                             ))}
                                         </ul>
@@ -374,7 +568,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
                                             {alignmentGaps.map((g, i) => (
                                                 <li key={i} className="flex gap-2 text-xs text-slate-600">
                                                     <AlertTriangle className="w-3.5 h-3.5 text-amber-500 mt-0.5 shrink-0" />
-                                                    {g}
+                                                    {formatSkillName(g)}
                                                 </li>
                                             ))}
                                         </ul>
