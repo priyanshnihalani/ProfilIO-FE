@@ -11,9 +11,9 @@ import { Button } from '../ui/button';
 interface AtsDashboardProps {
     analysis: AtsAnalysisResult | null;
     isLoading: boolean;
-    isImproving: boolean;
+    // isImproving: boolean;
     onAnalyze: (jobDescription: string, selectedKeywords?: string[]) => void;
-    onImprove: (selectedKeywords?: string[]) => void;
+    // onImprove: (selectedKeywords?: string[]) => void;
     onBack: () => void;
     onAddKeywords: (keywords: string[]) => void;
 }
@@ -110,7 +110,7 @@ const formatSkillName = (skill: string) => {
 
 
 export const AtsDashboard: React.FC<AtsDashboardProps> = ({
-    analysis, isLoading, isImproving, onAnalyze, onImprove, onBack, onAddKeywords,
+    analysis, isLoading, onAnalyze, onBack, onAddKeywords,
 }) => {
     const [jobDescription, setJobDescription] = useState('');
     const [selectedKeywords, setSelectedKeywords] = useState<string[]>([]);
@@ -209,7 +209,7 @@ export const AtsDashboard: React.FC<AtsDashboardProps> = ({
     const alignmentStrengths = analysis?.details?.alignment?.alignment_strengths ?? [];
     const quantified       = analysis?.details?.impact?.quantified_bullet_count ?? 0;
     const totalBullets     = analysis?.details?.impact?.total_bullet_count     ?? 0;
-    const recommendations  = analysis?.recommendations ?? [];
+    // const recommendations  = analysis?.recommendations ?? [];
     const sectionScores    = analysis?.details?.sectionScores ?? [];
     const parserSimulation = analysis?.details?.parserSimulation;
     const lineLevelIssues  = analysis?.details?.lineLevelIssues ?? [];

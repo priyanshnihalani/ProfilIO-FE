@@ -469,19 +469,19 @@ const parseAwards = (value: string): { name: string; meta: string; bullets: stri
  * keeping the original value whenever AI returns null, undefined, or empty string.
  * This prevents AI from accidentally blanking out sections it didn't improve.
  */
-const safeMergeForm = (current: BuilderForm, aiReturned: BuilderForm): BuilderForm => {
-    const merged = { ...current };
-    const keys = Object.keys(aiReturned) as (keyof BuilderForm)[];
-    for (const key of keys) {
-        const newVal = aiReturned[key];
-        // Only accept the AI value if it's a non-empty string
-        if (typeof newVal === 'string' && newVal.trim()) {
-            (merged as any)[key] = newVal;
-        }
-        // Otherwise: keep current[key] — AI returned empty/null, preserve original
-    }
-    return merged;
-};
+// const safeMergeForm = (current: BuilderForm, aiReturned: BuilderForm): BuilderForm => {
+//     const merged = { ...current };
+//     const keys = Object.keys(aiReturned) as (keyof BuilderForm)[];
+//     for (const key of keys) {
+//         const newVal = aiReturned[key];
+//         // Only accept the AI value if it's a non-empty string
+//         if (typeof newVal === 'string' && newVal.trim()) {
+//             (merged as any)[key] = newVal;
+//         }
+//         // Otherwise: keep current[key] — AI returned empty/null, preserve original
+//     }
+//     return merged;
+// };
 
 const buildResumeData = (form: BuilderForm): ResumeData => {
     const links: string[] = [
@@ -730,7 +730,7 @@ const TemplateGallery: React.FC = () => {
     const [showAtsDashboard, setShowAtsDashboard] = useState(false);
     const [atsAnalysisData, setAtsAnalysisData] = useState<AtsAnalysisResult | null>(null);
     const [isAnalyzingAts, setIsAnalyzingAts] = useState(false);
-    const [isImprovingAts, setIsImprovingAts] = useState(false);
+    // const [isImprovingAts, setIsImprovingAts] = useState(false);
     const activeTemplate = templates.find((template) => template.id === selectedId);
     const isTwoColumnTemplate = selectedId === 2 || selectedId === 3 || selectedId === 5 || selectedId === 8 || selectedId === 11 || selectedId === 13 || selectedId === 15;
     const pagination = useResumePagination(resumeData, selectedId || 1, isTwoColumnTemplate, {
@@ -791,42 +791,42 @@ const TemplateGallery: React.FC = () => {
         showNotification('success', `Added ${keywords.length} keyword(s) to your skills section!`);
     };
 
-    const handleAutoImprove = async (selectedKeywords: string[] = []) => {
-        if (!atsAnalysisData) return;
-        setIsImprovingAts(true);
-
-        try {
-            const response = await post("resume/score-and-improve", {
-                form,
-                jobDescription: form.jobDescription,
-                selectedMissingKeywords: selectedKeywords,
-            });
-            const data = response.data;
-
-            if (data.success) {
-                // Safe-merge: only overwrite fields the AI actually improved with
-                // non-empty content. Never let AI blank out languages, education, etc.
-                const mergedForm = safeMergeForm(form, data.data.improvedForm);
-                setForm(mergedForm);
-                const newResumeData = buildResumeData(mergedForm);
-                setResumeData(newResumeData);
-                
-                // Run full ATS scan again to recalculate and refresh dashboard scores
-                await runAtsScan(form.jobDescription || "", newResumeData, selectedKeywords);
-
-                showNotification(
-                    "success",
-                    `AI Auto-Improve Successful! Improved: ${data.data.sectionsImproved.join(", ")}`
-                );
-            } else {
-                showNotification("error", data.message || "Auto-improve failed.");
-            }
-        } catch (error: any) {
-            showNotification("error", error.response?.data?.message || error.message || "An error occurred while improving.");
-        } finally {
-            setIsImprovingAts(false);
-        }
-    };
+    // const handleAutoImprove = async (selectedKeywords: string[] = []) => {
+    //     if (!atsAnalysisData) return;
+    //     setIsImprovingAts(true);
+    // 
+    //     try {
+    //         const response = await post("resume/score-and-improve", {
+    //             form,
+    //             jobDescription: form.jobDescription,
+    //             selectedMissingKeywords: selectedKeywords,
+    //         });
+    //         const data = response.data;
+    // 
+    //         if (data.success) {
+    //             // Safe-merge: only overwrite fields the AI actually improved with
+    //             // non-empty content. Never let AI blank out languages, education, etc.
+    //             const mergedForm = safeMergeForm(form, data.data.improvedForm);
+    //             setForm(mergedForm);
+    //             const newResumeData = buildResumeData(mergedForm);
+    //             setResumeData(newResumeData);
+    //             
+    //             // Run full ATS scan again to recalculate and refresh dashboard scores
+    //             await runAtsScan(form.jobDescription || "", newResumeData, selectedKeywords);
+    // 
+    //             showNotification(
+    //                 "success",
+    //                 `AI Auto-Improve Successful! Improved: ${data.data.sectionsImproved.join(", ")}`
+    //             );
+    //         } else {
+    //             showNotification("error", data.message || "Auto-improve failed.");
+    //         }
+    //     } catch (error: any) {
+    //         showNotification("error", error.response?.data?.message || error.message || "An error occurred while improving.");
+    //     } finally {
+    //         setIsImprovingAts(false);
+    //     }
+    // };
 
     const [selectedCategory, setSelectedCategory] = useState<string>('All Templates');
     const [searchRole, setSearchRole] = useState('');
@@ -1313,7 +1313,7 @@ const TemplateGallery: React.FC = () => {
                                 <AtsDashboard
                                     analysis={atsAnalysisData}
                                     isLoading={isAnalyzingAts}
-                                    isImproving={isImprovingAts}
+                                    // isImproving={isImprovingAts}
                                     onAnalyze={(jobDescription, selectedKeywords = []) => {
                                         setForm(prev => ({ ...prev, jobDescription }));
                                         const freshForm = { ...form, jobDescription };
@@ -1321,7 +1321,7 @@ const TemplateGallery: React.FC = () => {
                                         setResumeData(freshData);
                                         runAtsScan(jobDescription, freshData, selectedKeywords);
                                     }}
-                                    onImprove={handleAutoImprove}
+                                    // onImprove={handleAutoImprove}
                                     onBack={() => setShowAtsDashboard(false)}
                                     onAddKeywords={handleAddKeywords}
                                 />
