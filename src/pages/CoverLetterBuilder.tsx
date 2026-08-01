@@ -214,7 +214,7 @@ const CoverLetterBuilder: React.FC = () => {
             }
             const res = await coverLetterApi.generate(payload);
             if (res.data.success) {
-                setFormData(prev => ({ ...prev, content: res.data.content }));
+                setFormData((prev: any) => ({ ...prev, content: res.data.content }));
                 setStep(3);
                 await refreshUser();
             }
@@ -237,7 +237,7 @@ const CoverLetterBuilder: React.FC = () => {
                 instruction
             });
             if (res.data.success) {
-                setFormData(prev => ({ ...prev, content: res.data.content }));
+                setFormData((prev: any) => ({ ...prev, content: res.data.content }));
                 await refreshUser();
             }
         } catch (e: any) {
@@ -590,7 +590,7 @@ const CoverLetterBuilder: React.FC = () => {
                                             >
                                                 {/* Actual thumbnail preview */}
                                                 <div 
-                                                    ref={el => thumbContainerRefs.current[index] = el}
+                                                    ref={(el: HTMLDivElement | null) => { thumbContainerRefs.current[index] = el; }}
                                                     className="aspect-[794/1122] bg-white border-b border-slate-200 overflow-hidden relative"
                                                 >
                                                     <div 
@@ -601,10 +601,7 @@ const CoverLetterBuilder: React.FC = () => {
                                                             data={{ ...resumeData, fullName: formData.fullName || resumeData?.fullName }}
                                                             jobTitle={formData.jobTitle || "Software Engineer"}
                                                             companyName={formData.companyName || "Acme Corp"}
-                                                            jobDescription={formData.jobDescription}
                                                             hiringManagerName={formData.hiringManagerName || "Hiring Manager"}
-                                                            companyLocation={formData.companyLocation}
-                                                            tone={formData.tone}
                                                             content={formData.content || "Dear Hiring Manager,\n\nI am thrilled to apply for this position. I believe my skills and background make me a great fit for your team. I look forward to the opportunity to discuss how I can contribute to your goals.\n\nSincerely,\nApplicant"}
                                                         />
                                                     </div>

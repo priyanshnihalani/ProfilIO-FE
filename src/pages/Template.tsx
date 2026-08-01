@@ -22,7 +22,6 @@ import {
     MessageSquare,
     Send,
     Gem,
-    LayoutTemplate,
     MoreHorizontal
 } from 'lucide-react';
 import MinimalClean from '../templates/MinimalClean';

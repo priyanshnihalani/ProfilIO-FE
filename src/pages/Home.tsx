@@ -27,7 +27,7 @@ import {
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
-import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
+
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../components/ui/dialog";
 import MinimalClean from '../templates/MinimalClean';
 import ModernProfessional from '../templates/ModernProfessional';
@@ -784,8 +784,8 @@ const Home = () => {
                 {/* Resume Paper */}
                 <div
                   className={`w-full max-w-[560px] bg-white shadow-premium p-5 sm:p-8 md:p-10 flex text-slate-700 text-left transition-all duration-500 relative rounded-md
-                    ${selectedTemplate === "modern" ? "border-t-8 border-[#6D5DF6]" : ""}
-                    ${selectedTemplate === "executive" ? "flex-col items-center text-center" : "flex-col"}
+                    ${String(selectedTemplate) === "modern" ? "border-t-8 border-[#6D5DF6]" : ""}
+                    ${String(selectedTemplate) === "executive" ? "flex-col items-center text-center" : "flex-col"}
                   `}
                 >
                   
@@ -1045,7 +1045,7 @@ const Home = () => {
                     >
                       {/* Scaled actual template */}
                       <div 
-                        ref={(el) => (thumbContainerRefs.current[tpl.id] = el)}
+                        ref={(el: HTMLDivElement | null) => { thumbContainerRefs.current[tpl.id] = el; }}
                         className="aspect-[1/1.414] rounded-xl bg-slate-50 border border-slate-100 flex flex-col justify-between overflow-hidden relative group-hover:border-[#6D5DF6]/30 transition-colors duration-300"
                       >
                         <div 

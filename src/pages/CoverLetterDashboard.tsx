@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { coverLetterApi } from '../services/ApiService';
-import { RiAddLine, RiFileTextLine, RiDeleteBinLine, RiEdit2Line, RiTimeLine } from 'react-icons/ri';
+import { RiFileTextLine, RiDeleteBinLine, RiEdit2Line, RiTimeLine } from 'react-icons/ri';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 const CoverLetterDashboard: React.FC = () => {
