@@ -51,7 +51,7 @@ import templateStyles from '../templates/TemplateStyles.css?raw';
 import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 type TemplateId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
@@ -722,8 +722,9 @@ const Notification = ({ notification }: { notification: any }) => {
 
 const TemplateGallery: React.FC = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { user, isPremium, refreshUser } = useAuth();
-    const [selectedId, setSelectedId] = useState<TemplateId | null>(null);
+    const [selectedId, setSelectedId] = useState<TemplateId | null>(location.state?.selectedTemplateId || null);
     const [form, setForm] = useState<BuilderForm>(starterForm);
     const [totalPages, setTotalPages] = useState(1);
     const [previewScale, setPreviewScale] = useState(1);
@@ -1247,6 +1248,22 @@ const TemplateGallery: React.FC = () => {
                                 <Sparkles className="w-4 h-4 fill-current" />
                                 Fix Resume Preview
                             </Button>
+                            <div className="flex flex-wrap items-center gap-3">
+                            {user && (
+                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 text-xs font-bold text-purple-700 mr-auto border border-purple-100 hidden md:flex">
+                                    <Sparkles className="w-3.5 h-3.5 text-purple-500" />
+                                    AI Daily Quota: {user.aiImprovements || 0} / {user.aiDailyLimit || 5} used
+                                </div>
+                            )}
+
+                            <Button
+                                variant="outline"
+                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl md:ml-auto"
+                                onClick={() => navigate('/templates')}
+                            >
+                                <LayoutTemplate className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">Templates</span>
+                            </Button>
                             <Button
                                 variant="outline"
                                 className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
@@ -1261,11 +1278,30 @@ const TemplateGallery: React.FC = () => {
                             <Button
                                 variant="outline"
                                 className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={() => exportFormAsJson(form, form.fullName)}
-                                title="Save all form fields as JSON — re-upload later to restore your resume instantly"
+                                onClick={async () => {
+                                    if (!user) {
+                                        exportFormAsJson(form, form.fullName);
+                                        return;
+                                    }
+                                    try {
+                                        const { post } = await import('../services/ApiService');
+                                        const res = await post('/resumes', { name: form.fullName || 'My Resume', data: form });
+                                        if (res.data.success) {
+                                            showNotification('success', 'Profile saved to cloud successfully!');
+                                            refreshUser();
+                                        }
+                                    } catch (error: any) {
+                                        if (error.response?.data?.code === 'RESUME_PROFILE_LIMIT_REACHED') {
+                                            showNotification('error', error.response.data.message);
+                                        } else {
+                                            showNotification('error', error.response?.data?.message || 'Failed to save profile');
+                                        }
+                                    }
+                                }}
+                                title="Save your resume profile to the cloud (or download JSON if not logged in)"
                             >
                                 <Save className="w-3.5 h-3.5" />
-                                Save Data
+                                Save Profile
                             </Button>
 
                             <Button
@@ -1312,8 +1348,9 @@ const TemplateGallery: React.FC = () => {
                             </Button>
                         </div>
                     </div>
+                </div>
 
-                    {!showAtsDashboard && (
+                {!showAtsDashboard && (
                         <div className="xl:hidden max-w-[1480px] mx-auto px-3 sm:px-5 md:px-8 pt-5 print:hidden">
                             <div className="grid grid-cols-2 rounded-2xl border border-slate-200 bg-white p-1 shadow-glass">
                                 <button
@@ -1810,7 +1847,7 @@ const TemplateGallery: React.FC = () => {
                                     {locked && (
                                         <div className="absolute right-4 top-4 z-30 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white shadow-md shadow-[#6D5DF6]/20 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white shadow-lg">
                                             <Gem className="h-3.5 w-3.5" />
-                                            Premium
+                                            Pro
                                         </div>
                                     )}
 

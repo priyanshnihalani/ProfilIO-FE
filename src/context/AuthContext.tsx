@@ -14,6 +14,9 @@ export interface User {
     aiImprovements?: number;
     paymentDate?: string;
     membershipEndDate?: string;
+    aiDailyLimit?: number;
+    resumeProfileLimit?: number;
+    weeklyDownloadLimit?: number;
 }
 
 interface AuthContextType {
@@ -86,7 +89,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const isPremium = () => {
         if (!user) return false;
-        return user.role === 'ADMIN' || user.planType === 'STARTER' || user.planType === 'PRO';
+        return user.role === 'ADMIN' || user.planType === 'PRO';
     };
 
     const refreshUser = async (): Promise<User | undefined> => {

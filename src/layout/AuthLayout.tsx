@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
     <div className="min-h-screen w-full flex bg-[#F8F9FC] font-sans overflow-x-hidden">
       
       {/* LEFT SIDE: Showcase Area (Hidden on mobile) */}
-      <div className="hidden lg:flex w-[45%] min-w-[420px] h-screen overflow-y-auto no-scrollbar flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0">
+      <div className="hidden lg:flex w-[45%] min-w-[420px] h-screen overflow-y-auto no-scrollbar flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0 auth-showcase">
         {/* Background decorative elements */}
         <div className="absolute top-10 right-10 grid grid-cols-4 gap-2 opacity-10">
           {[...Array(16)].map((_, i) => <div key={i} className="w-1.5 h-1.5 rounded-full bg-primary" />)}
@@ -59,7 +59,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         </div>
 
         {/* Abstract App Mockup Illustration */}
-        <div className="relative mt-6 lg:mt-8 xl:mt-12 mb-6 flex-1 w-full max-w-[500px] min-h-[300px] xl:min-h-[340px] 2xl:min-h-[380px] shrink-0">
+        <div className="relative mt-6 lg:mt-8 xl:mt-12 mb-6 flex-1 w-full max-w-[500px] min-h-[300px] xl:min-h-[340px] 2xl:min-h-[380px] shrink-0 auth-mockup-wrapper">
           {/* Main App Window */}
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
@@ -162,7 +162,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       <div className="w-full lg:w-[55%] flex flex-col min-h-screen bg-[#F8F9FC] relative justify-between">
         
         {/* Top Header Row (Logo for mobile + Navigation Tabs) */}
-        <div className="w-full flex flex-col items-center pt-8 pb-4 px-6 gap-6 shrink-0">
+        <div className="w-full flex flex-col items-center pt-8 pb-4 px-6 gap-6 shrink-0 auth-right-header">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
             <img src="/logo.png" alt="ProfilIO" className="h-14 w-auto object-contain" />
@@ -189,13 +189,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
 
         {/* Form Container Area (grows to center the form card) */}
         <div className="flex-1 flex items-center justify-center p-4 sm:p-6 md:p-8 w-full">
-          <div className="w-full max-w-[440px] bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-premium border border-slate-100 p-[clamp(1.25rem,4vw,2.5rem)]">
+          <div className="w-full max-w-[440px] bg-white rounded-[1.5rem] sm:rounded-[2rem] shadow-premium border border-slate-100 p-[clamp(1.25rem,4vw,2.5rem)] auth-form-card">
             {children}
           </div>
         </div>
 
         {/* Footer Area for small screen links / alignment balance */}
-        <div className="w-full py-4 text-center shrink-0">
+        <div className="w-full py-4 text-center shrink-0 auth-right-footer">
           <p className="text-[10px] text-slate-400 font-medium">
             © {new Date().getFullYear()} ProfilIO. All rights reserved.
           </p>

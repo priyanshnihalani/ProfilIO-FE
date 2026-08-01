@@ -60,6 +60,14 @@ export const get = async (endpoint: string) => {
     return await apiClient.get(endpoint.replace(/^\//, ""));
 };
 
+export const put = async (endpoint: string, data: any) => {
+    return await apiClient.put(endpoint.replace(/^\//, ""), data);
+};
+
+export const del = async (endpoint: string) => {
+    return await apiClient.delete(endpoint.replace(/^\//, ""));
+};
+
 export const downloadPdf = async (
     html: string,
     css: string,

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
 import {
   Sparkles,
@@ -31,10 +31,12 @@ import { Avatar, AvatarImage, AvatarFallback } from "../components/ui/avatar";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../components/ui/dialog";
 import MinimalClean from '../templates/MinimalClean';
 import ModernProfessional from '../templates/ModernProfessional';
-import ElegantCompact from '../templates/ElegantCompact';
 import TheMonolith from '../templates/TheMonolith';
 import TheCurator from '../templates/TheCurator';
+import TraditionalSerif from '../templates/TraditionalSerif';
 import { defaultResumeData } from '../types/resume';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -84,6 +86,9 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, className = "" }) => {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  
   // State for interactive builder
   const [activeTab, setActiveTab] = useState("profile");
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -142,14 +147,37 @@ const Home = () => {
 
   // State for Template Chooser
   const templates = [
-    { id: "minimal", name: "Minimalist Classic", desc: "Clean and standard layout with modern typography", render: () => <MinimalClean data={defaultResumeData} /> },
-    { id: "modern", name: "Modern Accent", desc: "Sleek look with a colored accent border", render: () => <ModernProfessional data={defaultResumeData} /> },
-    { id: "executive", name: "Executive Prestige", desc: "Refined and structured layout with centered headers", render: () => <ElegantCompact data={defaultResumeData} /> },
-    { id: "creative", name: "Creative Edge", desc: "Vibrant visual design for designers and builders", render: () => <TheMonolith data={defaultResumeData} /> },
-    { id: "developer", name: "Tech Monolith", desc: "Two-column technical layout optimized for engineers", render: () => <TheCurator data={defaultResumeData} /> }
+    { id: 1, name: "Minimalist Classic", desc: "Clean and standard layout with modern typography", render: () => <MinimalClean data={defaultResumeData} /> },
+    { id: 2, name: "Modern Accent", desc: "Sleek look with a colored accent border", render: () => <ModernProfessional data={defaultResumeData} /> },
+    { id: 4, name: "Bold Leader", desc: "Bold, centered, authoritative.", render: () => <TheMonolith data={defaultResumeData} /> },
+    { id: 5, name: "Creative Tech", desc: "Refined, multi-column, editorial.", render: () => <TheCurator data={defaultResumeData} /> },
+    { id: 10, name: "Harvard Classic", desc: "The gold standard traditional single-column format", render: () => <TraditionalSerif data={defaultResumeData} /> }
   ];
-  const [selectedTemplate, setSelectedTemplate] = useState("minimal");
+  const [selectedTemplate, setSelectedTemplate] = useState<number>(1);
   const [templateIndex, setTemplateIndex] = useState(0);
+  const thumbContainerRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const calibrateThumbs = () => {
+      thumbContainerRefs.current.forEach(card => {
+        if (!card) return;
+        const cardW = card.offsetWidth;
+        if (!cardW) return;
+        const scale = cardW / 794;
+        const thumbWrap = card.querySelector('.thumb-wrap') as HTMLElement;
+        if (thumbWrap) {
+          thumbWrap.style.transform = `scale(${scale})`;
+        }
+      });
+    };
+    
+    requestAnimationFrame(() => {
+      calibrateThumbs();
+      setTimeout(calibrateThumbs, 200);
+    });
+    window.addEventListener('resize', calibrateThumbs);
+    return () => window.removeEventListener('resize', calibrateThumbs);
+  }, [templateIndex, selectedTemplate]);
 
   // Rotate template index in carousel
   const nextTemplate = () => {
@@ -174,10 +202,10 @@ const Home = () => {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   return (
-    <main className="pt-16 sm:pt-20 overflow-x-hidden bg-[#FAFAFC] text-[#0F172A]">
+    <main className="pt-16 sm:pt-20 overflow-x-hidden bg-white text-[#0F172A]">
       
       {/* 1. HERO SECTION */}
-      <section className="relative liquid-section max-w-screen-2xl mx-auto overflow-hidden pb-10 sm:pb-16">
+      <section className="relative liquid-section max-w-screen-2xl mx-auto overflow-hidden pb-10 sm:pb-16 bg-[#F8F7FF]">
         {/* Soft SaaS backdrop gradient blur glows */}
         <div className="mobile-hide-decor absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#6D5DF6]/8 rounded-full blur-[140px] -z-10 animate-pulse" />
         <div className="mobile-hide-decor absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#8B7CF8]/8 rounded-full blur-[120px] -z-10" />
@@ -208,41 +236,44 @@ const Home = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="text-base sm:text-lg md:text-xl text-[#64748B] font-light max-w-lg leading-relaxed font-sans"
+              className="text-lg sm:text-xl text-[#64748B] font-medium max-w-lg leading-relaxed font-sans"
             >
-              Create ATS-friendly resumes in minutes. Designed with the precision of Apple and the visual depth of Linear. No design skills needed.
+              Create ATS-friendly, professional resumes in minutes with AI-powered suggestions and real-time feedback.
             </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="flex flex-wrap gap-4 pt-2"
+              className="flex flex-col gap-3 pt-4"
             >
-              <Button
-                variant="purple"
-                size="lg"
-                className="group shadow-xl bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] hover:shadow-[#6D5DF6]/20 transition-all duration-300 transform hover:-translate-y-0.5"
-                onClick={() => {
-                  const element = document.getElementById("builder");
-                  element?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Create My Resume
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-              
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-white border-[#f1f5f9] text-slate-700 hover:bg-[#FAFAFC] hover:border-slate-300 shadow-premium transition-all duration-300 transform hover:-translate-y-0.5"
-                onClick={() => {
-                  const element = document.getElementById("templates-section");
-                  element?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Explore Templates
-              </Button>
+              <div className="flex flex-wrap gap-4 items-center">
+                <Button
+                  variant="purple"
+                  size="lg"
+                  className="group shadow-xl bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] hover:shadow-[#6D5DF6]/30 transition-all duration-300 transform hover:-translate-y-1 text-base h-12 px-6"
+                  onClick={() => {
+                    const element = document.getElementById("builder");
+                    element?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Build My Resume — Free
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-transparent border-[#E2E8F0] text-slate-700 hover:bg-white hover:border-slate-300 shadow-sm hover:shadow-premium transition-all duration-300 transform hover:-translate-y-1 text-base h-12 px-6"
+                  onClick={() => {
+                    const element = document.getElementById("templates-section");
+                    element?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                >
+                  Explore Templates
+                </Button>
+              </div>
+              <p className="text-xs text-[#64748B] font-medium ml-2">No credit card required</p>
             </motion.div>
 
             {/* Hero Checklist Pills */}
@@ -276,13 +307,13 @@ const Home = () => {
             <motion.div
               animate={{ y: [0, -15, 0], rotate: [0, 15, 0] }}
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-              className="mobile-hide-decor absolute left-4 top-8 w-14 h-14 bg-gradient-to-tr from-blue-400 to-[#6D5DF6] rounded-full blur-[1px] shadow-[0_20px_40px_rgba(109,93,246,0.15)] z-20"
+              className="mobile-hide-decor absolute left-0 sm:left-2 top-4 sm:top-6 w-14 h-14 bg-gradient-to-tr from-blue-400 to-[#6D5DF6] rounded-full blur-[1px] shadow-[0_20px_40px_rgba(109,93,246,0.15)] z-20"
             />
             {/* Violet 3D block with "T" bottom left */}
             <motion.div
               animate={{ y: [0, 18, 0], rotate: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
-              className="mobile-hide-decor absolute left-8 bottom-4 w-16 h-16 bg-gradient-to-br from-[#8B7CF8] to-[#6D5DF6] rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-purple-300/30 z-20"
+              className="mobile-hide-decor absolute left-0 sm:left-4 bottom-8 sm:bottom-10 w-16 h-16 bg-gradient-to-br from-[#8B7CF8] to-[#6D5DF6] rounded-[1.25rem] flex items-center justify-center shadow-xl shadow-purple-300/30 z-20"
             >
               <span className="text-white text-3xl font-black italic">T</span>
             </motion.div>
@@ -291,14 +322,14 @@ const Home = () => {
             <motion.div
               animate={{ y: [0, -18, 0] }}
               transition={{ repeat: Infinity, duration: 6.5, ease: "easeInOut" }}
-              className="mobile-hide-decor absolute right-4 bottom-16 bg-white/80 backdrop-blur-md rounded-2xl p-4 border border-white/60 shadow-premium flex items-center gap-3.5 z-20"
+              className="mobile-hide-decor absolute -right-2 sm:-right-6 bottom-12 sm:bottom-16 bg-white/90 backdrop-blur-md rounded-2xl p-4 border border-white/80 shadow-[0_15px_35px_-5px_rgba(15,23,42,0.08)] flex items-center gap-3.5 z-20"
             >
               <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/10">
                 <Check className="w-5 h-5 text-emerald-500 stroke-[3]" />
               </div>
               <div className="text-left">
-                <div className="text-[10px] text-[#64748B] uppercase tracking-widest font-bold">Status</div>
-                <div className="text-xs font-extrabold text-[#0F172A]">Ready to download</div>
+                <div className="text-[10px] text-[#64748B] uppercase tracking-widest font-bold">ATS Optimized</div>
+                <div className="text-xs font-extrabold text-[#0F172A]">Ready to apply</div>
               </div>
             </motion.div>
 
@@ -306,24 +337,21 @@ const Home = () => {
             <motion.div
               animate={{ y: [0, 10, 0], rotate: [0, 12, 0] }}
               transition={{ repeat: Infinity, duration: 5.5, ease: "easeInOut" }}
-              className="mobile-hide-decor absolute -right-4 top-12 w-20 h-20 bg-gradient-to-br from-pink-400 to-[#ec4899] rounded-full flex items-center justify-center shadow-lg shadow-pink-300/30 z-0 overflow-hidden"
+              className="mobile-hide-decor absolute -right-2 sm:-right-4 top-8 sm:top-10 w-20 h-20 bg-gradient-to-br from-pink-400 to-[#ec4899] rounded-full flex items-center justify-center shadow-lg shadow-pink-300/30 z-0 overflow-hidden"
             >
               <div className="absolute inset-0 bg-[#8B7CF8] scale-x-50 origin-left rotate-45" />
               <div className="absolute inset-2 bg-[#FAFAFC] rounded-full" />
             </motion.div>
 
             {/* Elevated 3D Tilt Card */}
-            <TiltCard className="w-full max-w-[440px] px-4 sm:px-0">
-              <div className="bg-white rounded-[2.25rem] border border-[#f1f5f9] liquid-card shadow-premium flex flex-col space-y-5 text-slate-700 relative overflow-hidden transition-all duration-300">
+            <TiltCard className="w-full max-w-[480px] px-4 sm:px-0">
+              <div className="bg-white rounded-[2.25rem] border border-slate-200/50 shadow-[0_25px_50px_-12px_rgba(15,23,42,0.12)] liquid-card flex flex-col space-y-5 text-slate-700 relative overflow-hidden transition-all duration-300">
                 {/* Glass reflection shine overlay */}
                 <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/5 to-white/20 pointer-events-none" />
 
                 {/* Card Header (Avatar + Name) */}
                 <div className="flex items-center gap-4.5 pb-5 border-b border-slate-100/65">
-                  <Avatar className="w-16 h-16 border-2 border-[#6D5DF6]/20">
-                    <AvatarImage src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" />
-                    <AvatarFallback>PN</AvatarFallback>
-                  </Avatar>
+                  <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Profile Avatar" className="w-16 h-16 rounded-full border-2 border-[#6D5DF6]/20 object-cover" />
                   <div className="text-left">
                     <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight leading-tight">Priyansh Nihalani</h3>
                     <p className="text-xs font-semibold text-[#6D5DF6]">Full Stack Developer</p>
@@ -378,8 +406,8 @@ const Home = () => {
       </section>
 
       {/* 2. INTERACTIVE BUILDER PREVIEW */}
-      <section id="builder" className="liquid-section bg-white border-y border-slate-100 scroll-mt-10">
-        <div className="max-w-screen-xl mx-auto space-y-10 md:space-y-20">
+      <section id="builder" className="liquid-section bg-white border-y border-slate-100 scroll-mt-10 py-16 md:py-24">
+        <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16">
           
           {/* Header */}
           <div className="text-center max-w-xl mx-auto space-y-4">
@@ -762,11 +790,11 @@ const Home = () => {
                 >
                   
                   {/* Layout: Normal/Minimal/Modern */}
-                  {selectedTemplate !== "developer" ? (
+                  {selectedTemplate !== 5 ? (
                     <>
                       {/* Name / Title header */}
                       <div className={`w-full pb-6 border-b border-slate-100 space-y-2
-                        ${selectedTemplate === "executive" ? "text-center" : ""}
+                        ${selectedTemplate === 4 || selectedTemplate === 10 ? "text-center" : ""}
                       `}>
                         <h2 className="text-3xl font-extrabold tracking-tight text-[#0F172A] leading-none flex items-center justify-center md:justify-start gap-1">
                           {resumeData.name || "Full Name"}
@@ -779,7 +807,7 @@ const Home = () => {
                         
                         {/* Contact details */}
                         <div className={`flex flex-wrap gap-x-4 gap-y-1.5 pt-3 text-[11px] text-[#64748B] font-semibold
-                          ${selectedTemplate === "executive" ? "justify-center" : ""}
+                          ${selectedTemplate === 4 || selectedTemplate === 10 ? "justify-center" : ""}
                         `}>
                           {resumeData.email && (
                             <span className="flex items-center gap-1.5">
@@ -984,11 +1012,11 @@ const Home = () => {
       </section>
 
       {/* 3. TEMPLATES CAROUSEL */}
-      <section id="templates-section" className="liquid-section bg-[#FAFAFC]">
-        <div className="max-w-4xl mx-auto">
+      <section id="templates-section" className="liquid-section bg-[#F8F8FC] py-20 md:py-32">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
           {/* Template Chooser Carousel */}
-          <div className="flex flex-col space-y-8 text-center items-center">
+          <div className="flex flex-col space-y-12 text-center items-center">
             <div className="space-y-3">
               <span className="text-xs uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display font-display">Template Gallery</span>
               <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-[#0F172A] font-display">
@@ -1000,8 +1028,8 @@ const Home = () => {
             </div>
 
             {/* Template carousel grid — 1 card mobile, 2 tablet, 3 desktop */}
-            <div className="relative">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 py-4">
+            <div className="relative w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 py-6">
                 {templates.slice(templateIndex, templateIndex + 3).map((tpl) => {
                   const isActive = selectedTemplate === tpl.id;
                   return (
@@ -1009,21 +1037,44 @@ const Home = () => {
                       key={tpl.id}
                       onClick={() => setSelectedTemplate(tpl.id)}
                       whileHover={{ y: -6 }}
-                      className={`flex-1 bg-white rounded-[1.75rem] p-4 sm:p-5 border transition-all duration-300 cursor-pointer text-center space-y-4 relative
+                      className={`flex-1 bg-white rounded-[1.75rem] p-5 sm:p-6 border transition-all duration-300 cursor-pointer text-center space-y-5 relative group
                         ${isActive
-                          ? "border-[#6D5DF6] shadow-premium shadow-[#6D5DF6]/5 ring-1 ring-[#6D5DF6]"
-                          : "border-slate-200/80 shadow-glass hover:border-slate-300 hover:shadow-premium"
+                          ? "border-[#6D5DF6] shadow-premium shadow-[#6D5DF6]/10 ring-1 ring-[#6D5DF6]"
+                          : "border-slate-200/80 shadow-glass hover:border-[#6D5DF6]/50 hover:shadow-premium"
                         }`}
                     >
                       {/* Scaled actual template */}
-                      <div className="aspect-[3/4] rounded-xl bg-slate-50 border border-slate-100 flex flex-col justify-between overflow-hidden relative pointer-events-none">
-                        <div className="absolute top-0 left-0 w-[500%] h-[500%] origin-top-left scale-[0.2] pointer-events-none p-8 bg-white">
+                      <div 
+                        ref={(el) => (thumbContainerRefs.current[tpl.id] = el)}
+                        className="aspect-[1/1.414] rounded-xl bg-slate-50 border border-slate-100 flex flex-col justify-between overflow-hidden relative group-hover:border-[#6D5DF6]/30 transition-colors duration-300"
+                      >
+                        <div 
+                          className="thumb-wrap absolute top-0 left-0 origin-top-left pointer-events-none bg-white overflow-hidden shadow-sm"
+                          style={{ width: '794px', height: '1123px' }}
+                        >
                           {tpl.render()}
                         </div>
+                        <div className="absolute inset-0 hover:bg-slate-900/5 transition-colors flex items-center justify-center opacity-0 hover:opacity-100 z-10">
+                          <Button 
+                            variant="purple" 
+                            size="sm" 
+                            className="shadow-xl"
+                            onClick={(e) => {
+                              e.stopPropagation(); // prevent card click from firing if needed, though they do the same
+                              if (user) {
+                                navigate('/templates', { state: { selectedTemplateId: tpl.id } });
+                              } else {
+                                navigate('/login');
+                              }
+                            }}
+                          >
+                            Use this template
+                          </Button>
+                        </div>
                       </div>
-                      <div className="space-y-1">
-                        <div className="text-xs font-bold text-[#0F172A] leading-none">{tpl.name}</div>
-                        <div className="text-[9px] text-[#64748B] leading-tight font-medium line-clamp-1">{tpl.desc}</div>
+                      <div className="space-y-2 pt-2">
+                        <div className="text-sm font-extrabold text-[#0F172A] leading-none">{tpl.name}</div>
+                        <div className="text-xs text-[#64748B] leading-snug font-medium line-clamp-1">{tpl.desc}</div>
                       </div>
                     </motion.div>
                   );
@@ -1054,15 +1105,15 @@ const Home = () => {
       </section>
 
       {/* 4. WHY CHOOSE PROFILIO - BENTO GRID LAYOUT */}
-      <section id="features" className="liquid-section bg-white border-y border-slate-100">
-        <div className="max-w-screen-xl mx-auto space-y-20">
+      <section id="features" className="liquid-section bg-white border-y border-slate-100 py-20 md:py-32">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
           
-          <div className="text-center max-w-xl mx-auto space-y-4">
-            <span className="text-xs uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display">Features</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0F172A] font-display">
+          <div className="text-center max-w-2xl mx-auto space-y-5">
+            <span className="text-sm uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display">Features</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0F172A] font-display">
               Why Choose ProfilIo?
             </h2>
-            <p className="text-[#64748B] font-light leading-relaxed text-sm md:text-base">
+            <p className="text-[#64748B] font-medium leading-relaxed text-base md:text-lg">
               Build polished, ATS-friendly resumes with guided scoring, truthful AI refinement, and clean PDF export.
             </p>
           </div>
@@ -1073,22 +1124,22 @@ const Home = () => {
             {/* Card 1: Wide (ATS Optimized) */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="md:col-span-4 bg-[#FAFAFC] rounded-[2rem] liquid-card border border-slate-200/60 shadow-glass flex flex-col justify-between text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group"
+              className="md:col-span-4 bg-white rounded-[2rem] liquid-card border border-slate-200/80 shadow-glass flex flex-col justify-between p-6 sm:p-8 text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group hover:border-[#6D5DF6]/40"
             >
               {/* Radial glow background effect on hover */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#6D5DF6]/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#6D5DF6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="flex justify-between items-start">
-                <div className="w-12 h-12 rounded-2xl bg-blue-500/8 flex items-center justify-center border border-blue-500/10 text-[#6D5DF6]">
-                  <ShieldCheck className="w-6 h-6" />
+                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center border border-blue-500/20 text-[#6D5DF6] group-hover:scale-110 transition-transform duration-300">
+                  <ShieldCheck className="w-7 h-7" />
                 </div>
                 <Badge variant="success" className="bg-emerald-50 text-emerald-700 border-emerald-100 px-3 py-1 font-bold">Live Score</Badge>
               </div>
               
-              <div className="space-y-2.5 z-10">
-                <h3 className="text-2xl font-bold text-[#0F172A] font-display">ATS Score & Guidance</h3>
-                <p className="text-sm text-[#64748B] leading-relaxed font-light max-w-xl">
-                  Review keyword coverage, format safety, section completeness, impact language, role alignment, and parsing risks before you export.
+              <div className="space-y-3 z-10 pt-8">
+                <h3 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] font-display">ATS Score & Guidance</h3>
+                <p className="text-base text-[#64748B] leading-relaxed font-medium max-w-xl">
+                  See exactly what's weakening your resume and get clear, actionable suggestions to improve your ATS compatibility and interview chances.
                 </p>
               </div>
             </motion.div>
@@ -1096,16 +1147,16 @@ const Home = () => {
             {/* Card 2: Muted height (AI Assistance) */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="md:col-span-2 bg-[#FAFAFC] rounded-[2rem] liquid-card border border-slate-200/60 shadow-glass flex flex-col justify-between text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group"
+              className="md:col-span-2 bg-white rounded-[2rem] liquid-card border border-slate-200/80 shadow-glass flex flex-col justify-between p-6 sm:p-8 text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group hover:border-[#8B7CF8]/40"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#8B7CF8]/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="w-12 h-12 rounded-2xl bg-[#8B7CF8]/8 flex items-center justify-center border border-[#8B7CF8]/10 text-[#8B7CF8]">
-                <Cpu className="w-6 h-6" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#8B7CF8]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="w-14 h-14 rounded-2xl bg-[#8B7CF8]/10 flex items-center justify-center border border-[#8B7CF8]/20 text-[#8B7CF8] group-hover:scale-110 transition-transform duration-300">
+                <Cpu className="w-7 h-7" />
               </div>
-              <div className="space-y-2 z-10">
-                <h3 className="text-xl font-bold text-[#0F172A] font-display">Truthful AI Assistance</h3>
-                <p className="text-xs text-[#64748B] leading-relaxed font-light">
-                  Improve summaries and bullets with professional phrasing while preserving your existing skills, jobs, projects, and evidence.
+              <div className="space-y-3 z-10 pt-8">
+                <h3 className="text-xl md:text-2xl font-extrabold text-[#0F172A] font-display">Truthful AI Assistance</h3>
+                <p className="text-sm md:text-base text-[#64748B] leading-relaxed font-medium">
+                  Enhance your summaries and bullet points with professional phrasing that highlights your real achievements, without making up fake experience.
                 </p>
               </div>
             </motion.div>
@@ -1113,16 +1164,16 @@ const Home = () => {
             {/* Card 3: Muted height (Beautiful Templates) */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="md:col-span-2 bg-[#FAFAFC] rounded-[2rem] liquid-card border border-slate-200/60 shadow-glass flex flex-col justify-between text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group"
+              className="md:col-span-2 bg-white rounded-[2rem] liquid-card border border-slate-200/80 shadow-glass flex flex-col justify-between p-6 sm:p-8 text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group hover:border-pink-500/40"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="w-12 h-12 rounded-2xl bg-pink-500/8 flex items-center justify-center border border-pink-500/10 text-[#ec4899]">
-                <Layers className="w-6 h-6" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="w-14 h-14 rounded-2xl bg-pink-500/10 flex items-center justify-center border border-pink-500/20 text-[#ec4899] group-hover:scale-110 transition-transform duration-300">
+                <Layers className="w-7 h-7" />
               </div>
-              <div className="space-y-2 z-10">
-                <h3 className="text-xl font-bold text-[#0F172A] font-display">Polished Layouts</h3>
-                <p className="text-xs text-[#64748B] leading-relaxed font-light">
-                  Choose from professional templates with live preview, responsive pagination, and layouts tuned for readable resume structure.
+              <div className="space-y-3 z-10 pt-8">
+                <h3 className="text-xl md:text-2xl font-extrabold text-[#0F172A] font-display">Polished Layouts</h3>
+                <p className="text-sm md:text-base text-[#64748B] leading-relaxed font-medium">
+                  Stand out with recruiter-approved designs that ensure your information is readable, perfectly aligned, and visually impressive.
                 </p>
               </div>
             </motion.div>
@@ -1130,23 +1181,23 @@ const Home = () => {
             {/* Card 4: Wide (One-Click Export) */}
             <motion.div
               whileHover={{ y: -6 }}
-              className="md:col-span-4 bg-[#FAFAFC] rounded-[2rem] liquid-card border border-slate-200/60 shadow-glass flex flex-col justify-between text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group"
+              className="md:col-span-4 bg-white rounded-[2rem] liquid-card border border-slate-200/80 shadow-glass flex flex-col justify-between p-6 sm:p-8 text-left min-h-[240px] md:min-h-[300px] hover:shadow-premium transition-all duration-300 relative overflow-hidden group hover:border-emerald-500/40"
             >
-              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/3 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="flex justify-between items-start">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/8 flex items-center justify-center border border-emerald-500/10 text-emerald-500">
-                  <Download className="w-6 h-6" />
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 text-emerald-500 group-hover:scale-110 transition-transform duration-300">
+                  <Download className="w-7 h-7" />
                 </div>
-                <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
-                  <Clock className="w-3.5 h-3.5" /> Instant Build
+                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100">
+                  <Clock className="w-4 h-4" /> Instant Build
                 </div>
               </div>
               
-              <div className="space-y-2.5 z-10">
-                <h3 className="text-2xl font-bold text-[#0F172A] font-display">One-Click PDF Export</h3>
-                <p className="text-sm text-[#64748B] leading-relaxed font-light max-w-xl">
-                  Generate a text-based, selectable PDF from the server-rendered resume preview, preserving margins and page layout for sharing.
+              <div className="space-y-3 z-10 pt-8">
+                <h3 className="text-2xl md:text-3xl font-extrabold text-[#0F172A] font-display">One-Click PDF Export</h3>
+                <p className="text-base text-[#64748B] leading-relaxed font-medium max-w-xl">
+                  Download a flawless, text-selectable PDF instantly. No formatting errors, no weird margins—just a perfect document ready to send.
                 </p>
               </div>
             </motion.div>
@@ -1157,16 +1208,16 @@ const Home = () => {
       </section>
 
       {/* 5. WORKFLOW SECTION (TIMELINE CONNECTED PATH) */}
-      <section ref={workflowRef} className="liquid-section bg-slate-50/50 relative overflow-hidden">
-        <div className="max-w-screen-xl mx-auto space-y-24">
+      <section ref={workflowRef} className="liquid-section bg-[#F8F7FF] relative overflow-hidden py-20 md:py-32">
+        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 md:space-y-28">
           
           {/* Header */}
-          <div className="text-center max-w-xl mx-auto space-y-4">
-            <span className="text-xs uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display">Timeline</span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0F172A] font-display">
+          <div className="text-center max-w-2xl mx-auto space-y-5">
+            <span className="text-sm uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display">Timeline</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-[#0F172A] font-display">
               How It Works
             </h2>
-            <p className="text-[#64748B] font-light leading-relaxed text-sm md:text-base">
+            <p className="text-[#64748B] font-medium leading-relaxed text-base md:text-lg">
               Create and refine your professional portfolio in four simple structured milestones.
             </p>
           </div>
@@ -1211,24 +1262,45 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: idx * 0.15 }}
-                className="flex flex-col items-center md:items-start text-center md:text-left space-y-4 relative group"
+                className="flex flex-col items-center md:items-start text-center md:text-left space-y-5 relative group"
               >
                 {/* Step indicator circle with glow */}
-                <div className="w-14 h-14 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center text-slate-500 font-extrabold text-base shadow-glass transition-all duration-300 group-hover:border-[#6D5DF6] group-hover:text-[#6D5DF6] group-hover:shadow-[0_0_20px_rgba(109,93,246,0.25)] relative z-10">
+                <div className="w-16 h-16 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center text-slate-500 font-extrabold text-xl shadow-glass transition-all duration-300 group-hover:border-[#6D5DF6] group-hover:text-[#6D5DF6] group-hover:shadow-[0_0_20px_rgba(109,93,246,0.25)] group-hover:scale-110 relative z-10">
                   {step.step}
                 </div>
-                <h3 className="text-lg font-bold text-[#0F172A] font-display pt-2">{step.title}</h3>
-                <p className="text-xs text-[#64748B] leading-relaxed font-light max-w-[240px]">{step.desc}</p>
+                <h3 className="text-xl md:text-2xl font-bold text-[#0F172A] font-display pt-3">{step.title}</h3>
+                <p className="text-sm md:text-base text-[#64748B] leading-relaxed font-medium max-w-[260px]">{step.desc}</p>
               </motion.div>
             ))}
           </div>
-
-
-
         </div>
       </section>
 
-
+      {/* 6. FINAL CTA SECTION */}
+      <section className="relative overflow-hidden bg-[#6B63E8] py-24 md:py-32">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-white to-transparent" />
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-display">
+            Ready to Build a Resume That Stands Out?
+          </h2>
+          <p className="text-lg md:text-xl text-white/80 font-medium max-w-2xl mx-auto">
+            Create your professional, ATS-friendly resume in minutes and take the next step in your career.
+          </p>
+          <div className="pt-4">
+            <Button
+              size="lg"
+              className="!bg-white !text-[#6B63E8] hover:!bg-slate-50 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-base h-14 px-8 font-bold rounded-full shadow-lg border-0"
+              onClick={() => {
+                const element = document.getElementById("builder");
+                element?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              Build My Resume — Free
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </div>
+        </div>
+      </section>
 
     </main>
   );

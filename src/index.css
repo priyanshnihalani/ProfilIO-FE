@@ -218,3 +218,111 @@ body.editor-active footer {
 .premium-scroll::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, rgba(109, 93, 246, 0.7), rgba(139, 124, 248, 0.5));
 }
+
+/* Responsive adjustments for low-height screens in Auth Layout */
+@media (max-height: 840px) and (min-width: 1024px) {
+  .auth-showcase {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+    justify-content: flex-start !important;
+    gap: 2rem !important;
+  }
+  
+  .auth-showcase h1 {
+    font-size: clamp(2rem, 2.5vw, 2.5rem) !important;
+  }
+
+  .auth-showcase p {
+    font-size: 0.95rem !important;
+  }
+  
+  .auth-mockup-wrapper {
+    min-height: 280px !important;
+    max-height: 320px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    transform: scale(0.85);
+    transform-origin: top left;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 1024px) {
+  .auth-showcase {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+    gap: 1.5rem !important;
+  }
+  
+  .auth-showcase h1 {
+    font-size: clamp(1.75rem, 2.2vw, 2.25rem) !important;
+  }
+
+  .auth-showcase p {
+    font-size: 0.875rem !important;
+  }
+  
+  .auth-mockup-wrapper {
+    min-height: 240px !important;
+    max-height: 260px !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    transform: scale(0.7);
+    transform-origin: top left;
+  }
+}
+
+@media (max-height: 620px) and (min-width: 1024px) {
+  .auth-showcase {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    gap: 1rem !important;
+  }
+  
+  .auth-showcase h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .auth-showcase p {
+    display: none !important; /* Hide description on extremely short screens to fit mockup */
+  }
+  
+  .auth-mockup-wrapper {
+    min-height: 200px !important;
+    max-height: 220px !important;
+    transform: scale(0.55);
+    transform-origin: top left;
+  }
+}
+
+/* Auth form tweaks for low height screens (all widths) */
+@media (max-height: 750px) {
+  .auth-right-header {
+    padding-top: 1rem !important;
+    padding-bottom: 0.5rem !important;
+    gap: 0.5rem !important;
+  }
+  
+  .auth-form-card {
+    padding: 1.5rem !important;
+    border-radius: 1.5rem !important;
+  }
+  
+  .auth-form-card h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  
+  .auth-form-card p {
+    font-size: 0.75rem !important;
+  }
+
+  .auth-form-card form {
+    margin-top: 1rem !important;
+  }
+  
+  .auth-right-footer {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+}
+

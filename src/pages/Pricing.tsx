@@ -37,7 +37,7 @@ const Pricing: React.FC = () => {
     }, 4500);
   };
 
-  const handleUpgradeFree = async (planType: 'FREE' | 'STARTER') => {
+  const handleUpgradeFree = async (planType: 'FREE') => {
     if (!user) {
       navigate('/login');
       return;
@@ -47,7 +47,7 @@ const Pricing: React.FC = () => {
       const res = await post('payments/free-upgrade', { planType });
       if (res.data.success) {
         login(res.data.token, res.data.user);
-        showNotification('success', `Plan upgraded to ${planType === 'STARTER' ? 'Starter' : 'Free'} successfully!`);
+        showNotification('success', `Plan upgraded to Free successfully!`);
         setTimeout(() => navigate('/templates'), 1200);
       } else {
         showNotification('error', res.data.message || 'Upgrade failed.');
@@ -167,7 +167,7 @@ const Pricing: React.FC = () => {
       price: 0,
       priceLabel: 'Free',
       description: 'Perfect for testing the waters and creating your first resume.',
-      features: ['1 Resume Download / week', 'Unlimited AI Improvements', 'Basic Templates'],
+      features: ['5 AI Improvements / day', '1 Resume Profile', '1 Resume Download / week', 'Basic Templates', 'Basic ATS Analysis', 'PDF Export', 'Standard Support'],
       popular: false,
       buttonVariant: 'outline',
       action: () => handleUpgradeFree('FREE'),
@@ -175,10 +175,10 @@ const Pricing: React.FC = () => {
     {
       id: 'PRO',
       name: 'Pro',
-      price: 299,
-      priceLabel: '₹299',
+      price: 149,
+      priceLabel: '₹149',
       description: 'For serious job seekers who want the absolute best results.',
-      features: ['2 Resume Downloads / week', 'Unlimited AI Improvements', 'Premium Templates', 'Priority Support'],
+      features: ['5 AI Improvements / day', 'Up to 3 Resume Profiles', 'Unlimited Resume Downloads', 'All Premium Templates', 'Full ATS Analysis', 'PDF Export', 'Priority Support'],
       popular: true,
       buttonVariant: 'purple',
       action: handleProCheckout,
@@ -300,7 +300,7 @@ const Pricing: React.FC = () => {
                       <div className="mb-6 flex items-baseline gap-1 text-left">
                         <span className="text-3xl font-bold text-[#0F172A]">₹</span>
                         <span className="text-5xl lg:text-6xl font-black font-display tracking-tight text-[#0F172A]">{tier.price}</span>
-                        <span className="text-sm font-medium text-slate-400">/ week</span>
+                        <span className="text-sm font-medium text-slate-400">{tier.id === 'PRO' ? '/ month' : ''}</span>
                       </div>
 
                       <Button
