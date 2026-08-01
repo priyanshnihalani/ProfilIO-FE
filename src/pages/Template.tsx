@@ -15,14 +15,15 @@ import {
     Download,
     ArrowRight,
     Upload,
-    Save,
     Search,
     CheckCircle,
     Lock,
     Crown,
     MessageSquare,
     Send,
-    Gem
+    Gem,
+    LayoutTemplate,
+    MoreHorizontal
 } from 'lucide-react';
 import MinimalClean from '../templates/MinimalClean';
 import ModernProfessional from '../templates/ModernProfessional';
@@ -52,6 +53,8 @@ import { Button } from '../components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '../components/ui/dropdown-menu';
+import Notification from '../components/Notification';
 
 type TemplateId = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
@@ -572,10 +575,7 @@ const downloadFile = (filename: string, content: string, type: string) => {
     URL.revokeObjectURL(url);
 };
 
-const exportFormAsJson = (form: BuilderForm, fullName: string): void => {
-    const filename = `${(fullName || 'resume').replace(/\s+/g, '_')}_data.json`;
-    downloadFile(filename, JSON.stringify(form, null, 2), 'application/json');
-};
+
 
 const parseFormFromJson = (raw: unknown): BuilderForm => {
     if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
@@ -694,31 +694,6 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttribu
 );
 Textarea.displayName = "Textarea";
 
-const Notification = ({ notification }: { notification: any }) => {
-    if (!notification) return null;
-
-    return (
-        <div
-            className={`
-                fixed top-6 right-6 z-[99999]
-                min-w-[320px]
-                rounded-xl
-                px-5 py-3.5
-                shadow-xl
-                text-white
-                font-sans text-sm font-semibold
-                ${notification.type === "success"
-                    ? "bg-emerald-600 shadow-emerald-500/10"
-                    : notification.type === "error"
-                        ? "bg-rose-600 shadow-rose-500/10"
-                        : "bg-[#6D5DF6] shadow-[#6D5DF6]/10"
-                }
-            `}
-        >
-            {notification.message}
-        </div>
-    );
-};
 
 const TemplateGallery: React.FC = () => {
     const navigate = useNavigate();
@@ -1218,135 +1193,97 @@ const TemplateGallery: React.FC = () => {
                 <Notification notification={notification} />
                 {FeedbackModal}
                 {isDownloadingPdf && <WelcomeScreen />}
-                <div className="bg-[#FAFAFC] min-h-screen pt-20 pb-16 text-[#0F172A] font-sans">
+                
+                <div className="bg-[#FAFAFC] min-h-screen pt-16 md:pt-20 pb-16 text-[#0F172A] font-sans">
                     {/* Sticky glass toolbar */}
-                    <div className="bg-white/80 backdrop-blur-xl border-b border-slate-100 px-4 sm:px-6 md:px-10 py-4 flex flex-col md:flex-row gap-4 md:items-center md:justify-between shadow-xs print:hidden rounded-b-3xl w-full z-10">
-                        <div className="flex items-center gap-4">
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9 px-3.5 text-xs rounded-xl"
-                                onClick={() => setSelectedId(null)}
-                            >
-                                ← Back
-                            </Button>
-                            <span className="font-display font-extrabold text-lg text-[#0F172A]">{activeTemplate.name} Builder</span>
-                        </div>
-                        <div className="flex flex-wrap gap-2.5 items-center">
-                            <input
-                                type="file"
-                                accept=".pdf,.docx,.json"
-                                className="hidden"
-                                ref={fileInputRef}
-                                onChange={handleFileUpload}
-                            />
+                <div className="bg-white/95 backdrop-blur-xl border-b border-slate-100 px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-sm print:hidden sticky top-0 z-40">
+                    {/* LEFT: Navigation & Identity */}
+                    <div className="flex items-center gap-3 shrink-0">
+                        <button
+                            onClick={() => setSelectedId(null)}
+                            className="text-slate-400 hover:text-slate-700 transition-colors flex items-center justify-center p-1.5 -ml-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
+                            title="Back to Gallery"
+                        >
+                            <span className="text-lg leading-none">←</span>
+                        </button>
+                        <span className="font-display font-extrabold text-[15px] text-[#0F172A] truncate max-w-[120px] md:max-w-none">
+                            {activeTemplate.name} <span className="text-slate-400 font-medium hidden sm:inline">Builder</span>
+                        </span>
+                    </div>
 
-                            <Button
-                                variant="purple"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={fillTemplate}
-                            >
-                                <Sparkles className="w-4 h-4 fill-current" />
-                                Fix Resume Preview
-                            </Button>
-                            <div className="flex flex-wrap items-center gap-3">
-                            {user && (
-                                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 text-xs font-bold text-purple-700 mr-auto border border-purple-100 hidden md:flex">
-                                    <Sparkles className="w-3.5 h-3.5 text-purple-500" />
-                                    AI Daily Quota: {user.aiImprovements || 0} / {user.aiDailyLimit || 5} used
+                    {/* CENTER: AI & Edit Controls */}
+                    <div className="hidden md:flex items-center justify-center gap-2 flex-1 px-4">
+                        <Button
+                            variant="outline"
+                            className="bg-[#6D5DF6]/5 border-transparent text-[#6D5DF6] hover:bg-[#6D5DF6]/15 hover:border-[#6D5DF6]/20 cursor-pointer h-9 px-4 text-[13px] font-bold rounded-xl transition-all shadow-none"
+                            onClick={fillTemplate}
+                        >
+                            ✨ Fix Resume
+                        </Button>
+
+                        {user && (
+                            <div className="flex items-center gap-1.5 px-3 h-9 rounded-xl bg-slate-50 text-[12px] font-bold text-slate-500 border border-slate-200" title="AI improvements used today">
+                                <Sparkles className="w-3.5 h-3.5 text-[#6D5DF6]" />
+                                AI {user.aiImprovements || 0}/{user.aiDailyLimit || 5}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* RIGHT: Export & More */}
+                    <div className="flex items-center gap-2 shrink-0">
+                        <input
+                            type="file"
+                            accept=".pdf,.docx,.json"
+                            className="hidden"
+                            ref={fileInputRef}
+                            onChange={handleFileUpload}
+                        />
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <button className="flex items-center justify-center w-9 h-9 rounded-xl border border-slate-200 bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-900 transition-colors cursor-pointer outline-none">
+                                    <MoreHorizontal className="w-4 h-4" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="right" className="w-56 font-sans">
+                                {/* Mobile only elements in dropdown */}
+                                <div className="md:hidden">
+                                    <DropdownMenuItem onClick={fillTemplate} className="text-[#6D5DF6] font-medium">
+                                        <Sparkles className="w-4 h-4 mr-2" /> Fix Resume
+                                    </DropdownMenuItem>
+                                    <div className="h-px bg-slate-100 my-1 mx-2" />
                                 </div>
+                                
+                                <DropdownMenuItem onClick={() => fileInputRef.current?.click()}>
+                                    <Upload className="w-4 h-4 mr-2 text-slate-400" />
+                                    {isParsing ? (parsingStatus || "Extracting...") : "Upload Resume"}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => downloadFile(`${resumeData.fullName.replace(/\s+/g, '_')}_Resume.txt`, resumeToText(resumeData), 'text/plain')}>
+                                    <FileText className="w-4 h-4 mr-2 text-slate-400" />
+                                    Download TXT
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setFeedbackOpen(true)}>
+                                    <MessageSquare className="w-4 h-4 mr-2 text-slate-400" />
+                                    Send Feedback
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        <Button
+                            variant="purple"
+                            className="h-9 px-4 text-[13px] font-bold rounded-xl shadow-md bg-[#6D5DF6] hover:bg-[#5b51d8] hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed text-white border-0 transition-all cursor-pointer"
+                            onClick={downloadPdf}
+                            disabled={isDownloadingPdf}
+                        >
+                            {isDownloadingPdf ? (
+                                "Generating..."
+                            ) : (
+                                <>
+                                    <Download className="w-3.5 h-3.5 mr-1.5" />
+                                    Download PDF
+                                </>
                             )}
-
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl md:ml-auto"
-                                onClick={() => navigate('/templates')}
-                            >
-                                <LayoutTemplate className="w-3.5 h-3.5" />
-                                <span className="hidden sm:inline">Templates</span>
-                            </Button>
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={isParsing}
-                                title="Upload a PDF, DOCX, or previously exported JSON resume"
-                            >
-                                <Upload className="w-3.5 h-3.5" />
-                                {isParsing ? (parsingStatus || "Extracting...") : "Upload Resume"}
-                            </Button>
-
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={async () => {
-                                    if (!user) {
-                                        exportFormAsJson(form, form.fullName);
-                                        return;
-                                    }
-                                    try {
-                                        const { post } = await import('../services/ApiService');
-                                        const res = await post('/resumes', { name: form.fullName || 'My Resume', data: form });
-                                        if (res.data.success) {
-                                            showNotification('success', 'Profile saved to cloud successfully!');
-                                            refreshUser();
-                                        }
-                                    } catch (error: any) {
-                                        if (error.response?.data?.code === 'RESUME_PROFILE_LIMIT_REACHED') {
-                                            showNotification('error', error.response.data.message);
-                                        } else {
-                                            showNotification('error', error.response?.data?.message || 'Failed to save profile');
-                                        }
-                                    }
-                                }}
-                                title="Save your resume profile to the cloud (or download JSON if not logged in)"
-                            >
-                                <Save className="w-3.5 h-3.5" />
-                                Save Profile
-                            </Button>
-
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={() => downloadFile(`${resumeData.fullName.replace(/\s+/g, '_')}_Resume.txt`, resumeToText(resumeData), 'text/plain')}
-                            >
-                                <FileText className="w-3.5 h-3.5" />
-                                Download TXT
-                            </Button>
-
-                            <Button
-                                variant="outline"
-                                className="bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"
-                                onClick={() => setFeedbackOpen(true)}
-                            >
-                                <MessageSquare className="w-3.5 h-3.5" />
-                                Feedback
-                            </Button>
-
-                            {/* <Button
-                                variant={showAtsDashboard ? "purple" : "outline"}
-                                className={showAtsDashboard ? "h-9.5 text-xs rounded-xl shadow-md bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] text-white cursor-pointer" : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer h-9.5 text-xs rounded-xl"}
-                                onClick={() => setShowAtsDashboard(!showAtsDashboard)}
-                            >
-                                <Search className="w-3.5 h-3.5" />
-                                ATS Score
-                            </Button> */}
-
-                            <Button
-                                variant="purple"
-                                className="h-9.5 text-xs rounded-xl shadow-md bg-gradient-to-r from-[#6D5DF6] to-[#8B7CF8] hover:shadow-[#6D5DF6]/15 disabled:opacity-60 disabled:cursor-not-allowed"
-                                onClick={downloadPdf}
-                                disabled={isDownloadingPdf}
-                            >
-                                {isDownloadingPdf ? (
-                                    <>Generating PDF…</>
-                                ) : (
-                                    <>
-                                        <Download className="w-3.5 h-3.5" />
-                                        Download PDF
-                                    </>
-                                )}
-                            </Button>
-                        </div>
+                        </Button>
                     </div>
                 </div>
 

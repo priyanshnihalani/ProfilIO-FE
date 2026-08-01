@@ -13,7 +13,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsAndConditions from './pages/TermsAndConditions'
 import { AuthGuard, GuestGuard } from './components/auth/Guards'
 import GithubCallback from './pages/GithubCallback'
-
+import CoverLetterDashboard from './pages/CoverLetterDashboard'
+import CoverLetterBuilder from './pages/CoverLetterBuilder'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,14 @@ const router = createBrowserRouter([
         element: (
           <AuthGuard>
             <TemplateGallery />
+          </AuthGuard>
+        ),
+      },
+      {
+        path: "cover-letter",
+        element: (
+          <AuthGuard>
+            <CoverLetterDashboard />
           </AuthGuard>
         ),
       },
@@ -51,6 +60,14 @@ const router = createBrowserRouter([
       <GuestGuard>
         <Login />
       </GuestGuard>
+    ),
+  },
+  {
+    path: "/cover-letter/builder/:id",
+    element: (
+      <AuthGuard>
+        <CoverLetterBuilder />
+      </AuthGuard>
     ),
   },
   {

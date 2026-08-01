@@ -74,6 +74,15 @@ const Header = () => {
               Templates
             </NavLink>
             <NavLink
+              to="/cover-letter"
+              className={({ isActive }) =>
+                `flex items-center transition-colors ${isActive ? "text-primary font-semibold" : "hover:text-primary"}`
+              }
+            >
+              Cover Letter
+              <span className="ml-1.5 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-gradient-to-r from-indigo-500 to-purple-600 text-white leading-none">PRO</span>
+            </NavLink>
+            <NavLink
               to="/pricing"
               className={({ isActive }) =>
                 isActive ? "text-primary font-semibold" : "hover:text-primary transition-colors"
@@ -212,6 +221,19 @@ const Header = () => {
                   }
                 >
                   Templates
+                </NavLink>
+                <NavLink
+                  to="/cover-letter"
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center px-3 py-3.5 rounded-xl text-base font-medium transition-colors ${
+                      isActive
+                        ? "text-primary font-semibold bg-primary/5"
+                        : "text-slate-700 hover:text-primary hover:bg-slate-50"
+                    }`
+                  }
+                >
+                  Cover Letter
                 </NavLink>
                 <NavLink
                   to="/pricing"

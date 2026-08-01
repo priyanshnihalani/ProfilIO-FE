@@ -89,3 +89,30 @@ export const downloadPdf = async (
 
     return response.blob();
 };
+
+// Cover Letter API Methods
+export const coverLetterApi = {
+    getAll: () => get('/cover-letter'),
+    getById: (id: string) => get(`/cover-letter/${id}`),
+    save: (data: any) => post('/cover-letter', data),
+    delete: (id: string) => del(`/cover-letter/${id}`),
+    generate: (data: any) => post('/cover-letter/generate', data),
+    regenerate: (data: any) => post('/cover-letter/regenerate', data),
+    downloadPdf: async (html: string, css: string, filename: string): Promise<Blob> => {
+        const response = await fetch(`${API_BASE_URL}/cover-letter/generate-pdf`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                ...getAuthHeaders(),
+            } as HeadersInit,
+            body: JSON.stringify({ html, css, filename }),
+        });
+
+        if (!response.ok) {
+            const error = await response.json().catch(() => ({}));
+            throw new Error(error.message || "Failed to generate Cover Letter PDF");
+        }
+
+        return response.blob();
+    }
+};
