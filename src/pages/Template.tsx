@@ -821,8 +821,8 @@ const TemplateGallery: React.FC = () => {
             } else {
                 showNotification("error", data.message || "Auto-improve failed.");
             }
-        } catch (error) {
-            showNotification("error", "An error occurred while improving.");
+        } catch (error: any) {
+            showNotification("error", error.response?.data?.message || error.message || "An error occurred while improving.");
         } finally {
             setIsImprovingAts(false);
         }
