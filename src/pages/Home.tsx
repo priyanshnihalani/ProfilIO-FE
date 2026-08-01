@@ -205,11 +205,12 @@ const Home = () => {
     <main className="pt-16 sm:pt-20 overflow-x-hidden bg-white text-[#0F172A]">
       
       {/* 1. HERO SECTION */}
-      <section className="relative liquid-section max-w-screen-2xl mx-auto overflow-hidden pb-10 sm:pb-16 bg-[#F8F7FF]">
+      <section className="relative liquid-section overflow-hidden bg-[#F8F7FF]">
         {/* Soft SaaS backdrop gradient blur glows */}
         <div className="mobile-hide-decor absolute top-1/2 left-1/4 w-[600px] h-[600px] bg-[#6D5DF6]/8 rounded-full blur-[140px] -z-10 animate-pulse" />
         <div className="mobile-hide-decor absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#8B7CF8]/8 rounded-full blur-[120px] -z-10" />
 
+        <div className="w-full max-w-[1600px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center w-full z-10">
           {/* Hero Left Content */}
           <div className="lg:col-span-6 flex flex-col justify-center space-y-6 sm:space-y-10 text-left">
@@ -403,11 +404,12 @@ const Home = () => {
             </TiltCard>
           </div>
         </div>
+        </div>
       </section>
 
       {/* 2. INTERACTIVE BUILDER PREVIEW */}
-      <section id="builder" className="liquid-section bg-white border-y border-slate-100 scroll-mt-10 py-16 md:py-24">
-        <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 space-y-12 md:space-y-16">
+      <section id="builder" className="liquid-section bg-white border-y border-slate-100 scroll-mt-10">
+        <div className="w-full max-w-[1600px] mx-auto space-y-12 md:space-y-16">
           
           {/* Header */}
           <div className="text-center max-w-xl mx-auto space-y-4">
@@ -1012,8 +1014,8 @@ const Home = () => {
       </section>
 
       {/* 3. TEMPLATES CAROUSEL */}
-      <section id="templates-section" className="liquid-section bg-[#F8F8FC] py-20 md:py-32">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <section id="templates-section" className="liquid-section bg-[#F8F8FC]">
+        <div className="w-full max-w-[1600px] mx-auto">
           
           {/* Template Chooser Carousel */}
           <div className="flex flex-col space-y-12 text-center items-center">
@@ -1105,8 +1107,8 @@ const Home = () => {
       </section>
 
       {/* 4. WHY CHOOSE PROFILIO - BENTO GRID LAYOUT */}
-      <section id="features" className="liquid-section bg-white border-y border-slate-100 py-20 md:py-32">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 md:space-y-24">
+      <section id="features" className="liquid-section bg-white border-y border-slate-100">
+        <div className="w-full max-w-[1600px] mx-auto space-y-16 md:space-y-24">
           
           <div className="text-center max-w-2xl mx-auto space-y-5">
             <span className="text-sm uppercase tracking-widest text-[#6D5DF6] font-extrabold font-display">Features</span>
@@ -1208,8 +1210,8 @@ const Home = () => {
       </section>
 
       {/* 5. WORKFLOW SECTION (TIMELINE CONNECTED PATH) */}
-      <section ref={workflowRef} className="liquid-section bg-[#F8F7FF] relative overflow-hidden py-20 md:py-32">
-        <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20 md:space-y-28">
+      <section ref={workflowRef} className="liquid-section bg-[#F8F7FF] relative overflow-hidden">
+        <div className="w-full max-w-[1600px] mx-auto space-y-20 md:space-y-28">
           
           {/* Header */}
           <div className="text-center max-w-2xl mx-auto space-y-5">
@@ -1279,7 +1281,7 @@ const Home = () => {
       {/* 6. FINAL CTA SECTION */}
       <section className="relative overflow-hidden bg-[#6B63E8] py-24 md:py-32">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-white to-transparent" />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10 text-center space-y-8">
+        <div className="w-full max-w-3xl mx-auto relative z-10 text-center space-y-8">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-display">
             Ready to Build a Resume That Stands Out?
           </h2>

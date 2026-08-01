@@ -38,8 +38,14 @@ video {
 }
 
 .liquid-section {
-  padding-inline: clamp(1rem, 4vw, 3rem);
+  padding-inline: clamp(1rem, 5vw, 5rem);
   padding-block: clamp(4rem, 8vw, 7rem);
+}
+
+@media (min-width: 1800px) {
+  .liquid-section {
+    padding-inline: clamp(3rem, 6vw, 8rem);
+  }
 }
 
 .liquid-card {
