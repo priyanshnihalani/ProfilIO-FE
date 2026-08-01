@@ -167,7 +167,16 @@ const Pricing: React.FC = () => {
       price: 0,
       priceLabel: 'Free',
       description: 'Perfect for testing the waters and creating your first resume.',
-      features: ['5 AI Improvements / day', '1 Resume Download / week', 'Basic Templates', 'Basic ATS Analysis', 'PDF Export', 'Standard Support'],
+      features: [
+        { text: '5 AI Improvements / day', included: true },
+        { text: '1 Resume Download / week', included: true },
+        { text: 'Basic Templates', included: true },
+        { text: 'Basic ATS Analysis', included: true },
+        { text: 'AI Cover Letter Generator', included: false },
+        { text: '3 Professional Cover Letter Templates', included: false },
+        { text: 'PDF Export', included: true },
+        { text: 'Standard Support', included: true }
+      ],
       popular: false,
       buttonVariant: 'outline',
       action: () => handleUpgradeFree('FREE'),
@@ -179,14 +188,14 @@ const Pricing: React.FC = () => {
       priceLabel: '₹149',
       description: 'For serious job seekers who want the absolute best results.',
       features: [
-        "5 AI Improvements per day",
-        "Unlimited Resume Downloads",
-        "All Premium Resume Templates",
-        "Full ATS Analysis",
-        "AI Cover Letter Generator",
-        "3 Professional Cover Letter Templates",
-        "PDF Export",
-        "Priority Support"
+        { text: '5 AI Improvements / day', included: true },
+        { text: 'Unlimited Resume Downloads', included: true },
+        { text: 'All Premium Resume Templates', included: true },
+        { text: 'Full ATS Analysis', included: true },
+        { text: 'AI Cover Letter Generator', included: true },
+        { text: '3 Professional Cover Letter Templates', included: true },
+        { text: 'PDF Export', included: true },
+        { text: 'Priority Support', included: true }
       ],
       popular: true,
       buttonVariant: 'purple',
@@ -334,8 +343,12 @@ const Pricing: React.FC = () => {
                   <ul className="space-y-3">
                     {tier.features.map((feature, i) => (
                       <li key={i} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-[#6D5DF6]" />
-                        <span className="text-sm font-medium text-slate-700">{feature}</span>
+                        {feature.included ? (
+                          <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-[#6D5DF6]" />
+                        ) : (
+                          <XCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-500" />
+                        )}
+                        <span className={`text-sm font-medium ${feature.included ? 'text-slate-700' : 'text-slate-400 line-through'}`}>{feature.text}</span>
                       </li>
                     ))}
                   </ul>
