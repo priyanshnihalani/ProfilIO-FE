@@ -1104,6 +1104,7 @@ const TemplateGallery: React.FC = () => {
                     : form; // AI returned empty — keep original
                 setForm(updatedForm);
                 setResumeData(buildResumeData(updatedForm));
+                refreshUser();
             }
             console.log(response);
         } catch (error) {
