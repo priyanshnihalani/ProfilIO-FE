@@ -82,10 +82,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
               <div className="space-y-3 sm:space-y-4 flex-1">
                 {/* Header */}
                 <div>
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">John Doe</h3>
+                  <h3 className="text-base sm:text-lg font-black text-slate-900 leading-tight">Priyansh Nihalani</h3>
                   <p className="text-[9px] sm:text-[10px] text-slate-500 font-medium">Software Engineer</p>
                   <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[7px] sm:text-[8px] text-slate-400 mt-1">
-                    <span>john.doe@email.com</span>
+                    <span>priyansh.nihalani@email.com</span>
                     <span>+1 (555) 123-4567</span>
                     <span>New York, USA</span>
                   </div>

@@ -97,7 +97,7 @@ const Signup = () => {
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 onKeyDown={(e) => e.key === 'Enter' && handleNextStep()}
-                                placeholder="John Doe"
+                                placeholder="Priyansh Nihalani"
                                 className="w-full h-12 sm:h-14 pl-11 sm:pl-12 pr-4 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#6D5DF6] focus:ring-4 focus:ring-[#6D5DF6]/10 outline-none transition-all text-xs sm:text-sm font-medium"
                             />
                         </div>

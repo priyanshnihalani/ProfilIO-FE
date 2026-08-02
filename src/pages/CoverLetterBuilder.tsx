@@ -445,7 +445,7 @@ const CoverLetterBuilder: React.FC = () => {
                                             <div>
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">Your Name *</label>
                                                 <input type="text" className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#6B63E8]/20 focus:border-[#6B63E8] outline-none transition-all text-sm"
-                                                    value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })} placeholder="e.g. John Doe" />
+                                                    value={formData.fullName} onChange={e => setFormData({ ...formData, fullName: e.target.value })} placeholder="e.g. Priyansh Nihalani" />
                                             </div>
                                             <div>
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">Job Title *</label>
@@ -462,7 +462,7 @@ const CoverLetterBuilder: React.FC = () => {
                                             <div>
                                                 <label className="block text-sm font-semibold text-slate-700 mb-2">Hiring Manager <span className="text-slate-400 font-normal">(Optional)</span></label>
                                                 <input type="text" className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#6B63E8]/20 focus:border-[#6B63E8] outline-none transition-all text-sm"
-                                                    value={formData.hiringManagerName} onChange={e => setFormData({ ...formData, hiringManagerName: e.target.value })} placeholder="e.g. Jane Doe or Hiring Team" />
+                                                    value={formData.hiringManagerName} onChange={e => setFormData({ ...formData, hiringManagerName: e.target.value })} placeholder="e.g. Jane Nihalani or Hiring Team" />
                                             </div>
                                         </div>
 

@@ -236,14 +236,14 @@ const premiumTemplateIds = new Set<TemplateId>([3, 6, 7, 8, 9, 11, 12, 13, 14, 1
 const isTemplatePremium = (id: TemplateId) => premiumTemplateIds.has(id);
 
 const starterForm: BuilderForm = {
-    fullName: 'Alexandra Chen',
-    email: 'alexandra.chen@email.com',
-    phone: '+1 (415) 555-0182',
+    fullName: 'Priyansh Nihalani',
+    email: 'priyansh.nihalani@gmail.com',
+    phone: '0987654321',
     location: 'San Francisco, CA',
     website: '',
-    linkedin: 'linkedin.com/in/alexchen',
-    github: '',
-    targetRole: 'Senior Product Manager',
+    linkedin: 'linkedin.com/in/priyansh-nihalani',
+    github: 'github.com/priyanshnihalani',
+    targetRole: 'Full Stack Developer',
     summary: 'Results-driven Senior Product Manager with 7+ years of experience leading cross-functional teams and delivering data-informed product strategies. Proven track record of driving significant ARR growth and improving customer retention through structured experimentation and roadmap execution.',
     experience:
         'Senior Product Manager | Stripe | San Francisco, CA | Jan 2021 - Present\n- Led billing product improvements that contributed to $28M increase in ARR\n- Managed cross-functional team of 12 engineers, 3 designers, and 2 data analysts\n- Reduced customer churn by 18% through improved onboarding\n\nProduct Manager | Salesforce | San Francisco, CA | Jun 2018 - Dec 2020\n- Owned end-to-end roadmap for CRM analytics module used by 50,000+ customers\n- Shipped 3 major feature releases, increasing daily active usage by 34%',

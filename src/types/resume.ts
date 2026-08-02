@@ -38,12 +38,12 @@ export type ResumeData = {
 };
 
 export const defaultResumeData: ResumeData = {
-  fullName: 'Alexandra Chen',
-  headline: 'Senior Product Manager',
-  email: 'alexandra.chen@email.com',
-  phone: '+1 (415) 555-0182',
+  fullName: 'Priyansh Nihalani',
+  headline: 'Full Stack Developer',
+  email: 'priyansh.nihalani@gmail.com',
+  phone: '0987654321',
   location: 'San Francisco, CA',
-  links: ['linkedin.com/in/alexchen', 'github.com/alexchen'],
+  links: ['linkedin.com/in/priyansh-nihalani', 'github.com/priyanshnihalani'],
   summary:
     'Results-driven professional with experience leading cross-functional teams, improving business outcomes, and delivering measurable impact across digital products and operations.',
   skills: [
@@ -60,8 +60,8 @@ export const defaultResumeData: ResumeData = {
   ],
   experience: [
     {
-      title: 'Senior Product Manager',
-      company: 'Stripe, Inc.',
+      title: 'Full Stack Developer',
+      company: 'ABC Company',
       location: 'San Francisco, CA',
       dates: 'Jan 2021 - Present',
       bullets: [
@@ -71,8 +71,8 @@ export const defaultResumeData: ResumeData = {
       ],
     },
     {
-      title: 'Product Manager',
-      company: 'Airbnb',
+      title: 'Software Engineer',
+      company: 'XYZ Company',
       location: 'San Francisco, CA',
       dates: 'Mar 2018 - Dec 2020',
       bullets: [
