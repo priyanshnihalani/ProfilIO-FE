@@ -352,7 +352,7 @@ const Home = () => {
 
                 {/* Card Header (Avatar + Name) */}
                 <div className="flex items-center gap-4.5 pb-5 border-b border-slate-100/65">
-                  <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80" alt="Profile Avatar" className="w-16 h-16 rounded-full border-2 border-[#6D5DF6]/20 object-cover" />
+                  <img src="/myphoto.jpeg" alt="Profile Avatar" className="w-16 h-16 rounded-full border-2 border-[#6D5DF6]/20 object-cover" />
                   <div className="text-left">
                     <h3 className="text-xl font-extrabold text-[#0F172A] tracking-tight leading-tight">Priyansh Nihalani</h3>
                     <p className="text-xs font-semibold text-[#6D5DF6]">Full Stack Developer</p>

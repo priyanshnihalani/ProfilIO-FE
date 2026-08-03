@@ -13,7 +13,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
   const isLogin = location.pathname === "/login";
 
   return (
-    <div className="min-h-screen w-full flex bg-[#F8F9FC] font-sans overflow-x-hidden">
+    <div className="min-h-screen w-full flex bg-[#F8F9FC] font-sans overflow-x-hidden lg:h-screen lg:overflow-hidden">
       
       {/* LEFT SIDE: Showcase Area (Hidden on mobile) */}
       <div className="hidden lg:flex w-[45%] min-w-[420px] h-screen overflow-y-auto no-scrollbar flex-col relative bg-gradient-to-br from-[#EEEDFF] via-[#F4F3FF] to-[#E5E3FF] p-6 xl:p-10 2xl:p-12 justify-between shrink-0 auth-showcase">
@@ -159,7 +159,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
       </div>
 
       {/* RIGHT SIDE: Auth Form Area */}
-      <div className="w-full lg:w-[55%] flex flex-col min-h-screen bg-[#F8F9FC] relative justify-between">
+      <div className="w-full lg:w-[55%] flex flex-col min-h-screen lg:h-screen lg:overflow-y-auto premium-scroll bg-[#F8F9FC] relative justify-between">
         
         {/* Top Header Row (Logo for mobile + Navigation Tabs) */}
         <div className="w-full flex flex-col items-center pt-8 pb-4 px-6 gap-6 shrink-0 auth-right-header">
