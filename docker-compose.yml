@@ -4,6 +4,13 @@ services:
     container_name: profilio-frontend
 
     ports:
-      - "80:80"
+      - "127.0.0.1:3000:80"
 
     restart: unless-stopped
+
+    networks:
+      - profilio-network
+
+networks:
+  profilio-network:
+    external: true
